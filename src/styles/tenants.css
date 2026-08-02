@@ -1,0 +1,333 @@
+.rm-tenants-page {
+  display: grid;
+  gap: 20px;
+}
+
+.rm-tenants-heading {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.rm-tenants-toolbar {
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 1fr)
+    minmax(190px, 250px);
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-md);
+  background: var(--rm-surface);
+  box-shadow: var(--rm-shadow-sm);
+}
+
+.rm-tenants-table-wrapper {
+  min-height: 160px;
+}
+
+.rm-tenants-table {
+  --bs-table-hover-bg: var(--rm-primary-light);
+
+  font-size: 14px;
+}
+
+.rm-tenants-table thead th {
+  padding: 13px 16px;
+  border-bottom-width: 1px;
+  background: #f8fafc;
+  color: var(--rm-text-muted);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.rm-tenants-table tbody td {
+  padding: 14px 16px;
+  border-color: var(--rm-border);
+  color: var(--rm-text);
+  vertical-align: middle;
+}
+
+.rm-tenant-badge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rm-tenant-badge::before {
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.rm-tenant-badge--active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.rm-tenant-badge--inactive {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.rm-tenant-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.rm-tenant-actions .btn {
+  min-width: 52px;
+}
+
+.rm-tenant-actions-cell {
+  min-width: 270px;
+  text-align: right;
+}
+
+.rm-tenants-empty {
+  padding: 56px 20px;
+  text-align: center;
+}
+
+.rm-tenants-empty[hidden],
+.rm-tenants-table-wrapper[hidden] {
+  display: none !important;
+}
+
+.rm-tenants-empty-icon,
+.rm-tenant-history-empty-icon {
+  display: inline-flex;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--rm-primary-light);
+  color: var(--rm-primary);
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.rm-tenant-form-modal .modal-content,
+.rm-tenant-history-modal .modal-content {
+  border: 0;
+  border-radius: var(--rm-radius-md);
+  box-shadow: 0 24px 70px rgb(15 23 42 / 22%);
+}
+
+.rm-tenant-form-modal .modal-header,
+.rm-tenant-history-modal .modal-header {
+  padding: 20px 22px;
+}
+
+.rm-tenant-form-modal .modal-body,
+.rm-tenant-history-modal .modal-body {
+  padding: 22px;
+}
+
+.rm-tenant-form-modal .modal-footer,
+.rm-tenant-history-modal .modal-footer {
+  padding: 16px 22px 20px;
+}
+
+.rm-tenant-form-section-title {
+  margin: 0 0 14px;
+  color: var(--rm-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.rm-tenant-form-modal .form-label {
+  margin-bottom: 7px;
+  color: var(--rm-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rm-tenant-form-modal .form-control,
+.rm-tenant-form-modal .form-select {
+  min-height: 42px;
+  border-color: var(--rm-border);
+  border-radius: var(--rm-radius-sm);
+}
+
+.rm-tenant-form-modal textarea.form-control {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.rm-tenant-form-modal .form-control:focus,
+.rm-tenant-form-modal .form-select:focus {
+  border-color: var(--rm-primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 14%);
+}
+
+.rm-tenant-form-modal .form-control.is-invalid,
+.rm-tenant-form-modal .form-select.is-invalid {
+  border-color: var(--rm-danger);
+  box-shadow: none;
+}
+
+.rm-tenant-form-modal .invalid-feedback {
+  font-size: 12px;
+}
+
+.rm-tenant-history-empty {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.rm-tenant-history-table {
+  font-size: 14px;
+}
+
+.rm-tenant-history-table thead th {
+  padding: 12px 14px;
+  background: #f8fafc;
+  color: var(--rm-text-muted);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.rm-tenant-history-table tbody td {
+  padding: 13px 14px;
+  border-color: var(--rm-border);
+}
+
+@media (max-width: 991.98px) {
+  .rm-tenants-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-tenant-actions-cell {
+    min-width: 230px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .rm-tenants-heading {
+    align-items: stretch;
+  }
+
+  .rm-tenants-table-wrapper,
+  .rm-tenant-history-modal .table-responsive {
+    overflow: visible;
+  }
+
+  .rm-tenants-table,
+  .rm-tenant-history-table {
+    display: block;
+  }
+
+  .rm-tenants-table thead,
+  .rm-tenant-history-table thead {
+    display: none;
+  }
+
+  .rm-tenants-table tbody,
+  .rm-tenant-history-table tbody {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .rm-tenants-table tbody tr,
+  .rm-tenant-history-table tbody tr {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--rm-border);
+    border-radius: var(--rm-radius-md);
+    background: #ffffff;
+    box-shadow: var(--rm-shadow-sm);
+  }
+
+  .rm-tenants-table tbody td,
+  .rm-tenant-history-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(110px, 40%) 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rm-border);
+    text-align: right;
+  }
+
+  .rm-tenants-table tbody td:last-child,
+  .rm-tenant-history-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .rm-tenants-table tbody td::before,
+  .rm-tenant-history-table tbody td::before {
+    color: var(--rm-text-muted);
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 650;
+    text-align: left;
+  }
+
+  .rm-tenant-actions-cell {
+    min-width: 0;
+  }
+
+  .rm-tenant-actions {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .rm-tenants-heading {
+    flex-direction: column;
+  }
+
+  .rm-tenants-heading > .btn {
+    width: 100%;
+  }
+
+  .rm-tenants-toolbar {
+    padding: 14px;
+  }
+
+  .rm-tenants-table tbody,
+  .rm-tenant-history-table tbody {
+    padding: 10px;
+  }
+
+  .rm-tenants-table tbody td,
+  .rm-tenant-history-table tbody td {
+    grid-template-columns: 96px 1fr;
+  }
+
+  .rm-tenant-form-modal .modal-dialog,
+  .rm-tenant-history-modal .modal-dialog {
+    margin: 10px;
+  }
+
+  .rm-tenant-form-modal .modal-footer,
+  .rm-tenant-history-modal .modal-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rm-tenant-form-modal .modal-footer .btn,
+  .rm-tenant-history-modal .modal-footer .btn {
+    width: 100%;
+    margin: 0;
+  }
+}
