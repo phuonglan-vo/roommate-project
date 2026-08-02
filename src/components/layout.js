@@ -2,61 +2,67 @@ const MENU_ITEMS = Object.freeze([
   {
     page: 'dashboard',
     label: 'Dashboard',
+    path: '/dashboard',
     icon: '⌂'
   },
   {
     page: 'rooms',
     label: 'Phòng trọ',
+    path: '/rooms',
     icon: '▦'
   },
   {
     page: 'tenants',
     label: 'Người thuê',
+    path: '/tenants',
     icon: '♙'
   },
   {
     page: 'contracts',
     label: 'Hợp đồng',
+    path: '/contracts',
     icon: '▤'
   },
   {
-    page: 'meter-readings',
+    page: 'meters',
     label: 'Điện nước',
+    path: '/meters',
     icon: '↕'
   },
   {
-    page: 'service-configs',
+    page: 'services',
     label: 'Dịch vụ',
+    path: '/services',
     icon: '◇'
   },
   {
     page: 'invoices',
     label: 'Hóa đơn',
+    path: '/invoices',
     icon: '▧'
   },
   {
     page: 'payments',
     label: 'Thanh toán',
+    path: '/payments',
     icon: '✓'
   },
   {
     page: 'debts',
     label: 'Công nợ',
+    path: '/debts',
     icon: '!'
   },
   {
     page: 'reports',
     label: 'Báo cáo',
+    path: '/reports',
     icon: '▥'
-  },
-  {
-    page: 'import-export',
-    label: 'Import / Export',
-    icon: '⇅'
   },
   {
     page: 'settings',
     label: 'Cài đặt',
+    path: '/settings',
     icon: '⚙'
   }
 ]);
@@ -88,7 +94,7 @@ function createElement(
   });
 
   Object.entries(dataset).forEach(([name, value]) => {
-    element.dataset[name] = value;
+    element.dataset[name] = String(value);
   });
 
   element.append(...children);
@@ -161,7 +167,7 @@ function createSidebar(onNavigate) {
     }
 
     event.preventDefault();
-    onNavigate('dashboard');
+    onNavigate('/dashboard');
     closeMobileSidebar(sidebar);
   });
 
@@ -202,17 +208,17 @@ function createSidebar(onNavigate) {
     }
   });
 
-  MENU_ITEMS.forEach(({ page, label, icon }) => {
+  MENU_ITEMS.forEach((item) => {
     const iconElement = createElement('span', {
       className: 'rm-nav-icon',
-      text: icon,
+      text: item.icon,
       attributes: {
         'aria-hidden': 'true'
       }
     });
 
     const labelElement = createElement('span', {
-      text: label
+      text: item.label
     });
 
     const link = createElement(
@@ -220,11 +226,11 @@ function createSidebar(onNavigate) {
       {
         className: 'rm-nav-link',
         attributes: {
-          href: `#/${page}`
+          href: `#${item.path}`
         },
         dataset: {
-          page,
-          testid: `nav-${page}`
+          page: item.page,
+          testid: `nav-${item.page}`
         }
       },
       [iconElement, labelElement]
@@ -236,7 +242,7 @@ function createSidebar(onNavigate) {
       }
 
       event.preventDefault();
-      onNavigate(page);
+      onNavigate(item.path);
       closeMobileSidebar(sidebar);
     });
 
@@ -366,6 +372,9 @@ function createMainContent() {
   const heading = createElement('h1', {
     className: 'rm-page-title',
     text: 'Dashboard',
+    attributes: {
+      id: 'roommatePageHeading'
+    },
     dataset: {
       testid: 'page-heading'
     }
@@ -382,14 +391,23 @@ function createMainContent() {
     [heading]
   );
 
-  heading.id = 'roommatePageHeading';
+  const outlet = createElement('div', {
+    attributes: {
+      id: 'routerOutlet',
+      'aria-live': 'polite'
+    },
+    dataset: {
+      routerOutlet: '',
+      testid: 'page-content'
+    }
+  });
 
   const container = createElement(
     'div',
     {
       className: 'container-fluid px-0'
     },
-    [pageHeader]
+    [pageHeader, outlet]
   );
 
   return createElement(
@@ -408,7 +426,9 @@ function createMainContent() {
   );
 }
 
-export function createAppLayout({ onNavigate } = {}) {
+export function createAppLayout({
+  onNavigate
+} = {}) {
   const sidebar = createSidebar(onNavigate);
   const topbar = createTopbar();
   const content = createMainContent();
@@ -431,6 +451,22 @@ export function createAppLayout({ onNavigate } = {}) {
     },
     [sidebar, mainArea]
   );
+}
+
+export function getLayoutOutlet(layout) {
+  if (!(layout instanceof HTMLElement)) {
+    throw new TypeError('Layout cần là một HTMLElement.');
+  }
+
+  const outlet = layout.querySelector('[data-router-outlet]');
+
+  if (!(outlet instanceof HTMLElement)) {
+    throw new Error(
+      'Không tìm thấy vùng hiển thị trang trong layout.'
+    );
+  }
+
+  return outlet;
 }
 
 export function updateLayoutPage(
@@ -461,7 +497,9 @@ export function updateLayoutPage(
   }
 
   layout.querySelectorAll('[data-page]').forEach((menuItem) => {
-    const isActive = menuItem.dataset.page === page;
+    const isActive =
+      typeof page === 'string' &&
+      menuItem.dataset.page === page;
 
     menuItem.classList.toggle('active', isActive);
 
