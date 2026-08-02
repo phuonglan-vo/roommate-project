@@ -1,0 +1,379 @@
+.rm-contracts-page {
+  display: grid;
+  gap: 20px;
+}
+
+.rm-contracts-heading {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.rm-contract-expiring-alert[hidden],
+.rm-contracts-table-wrapper[hidden],
+.rm-contracts-empty[hidden] {
+  display: none !important;
+}
+
+.rm-contract-expiring-alert {
+  margin: 0;
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.rm-contracts-toolbar {
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 1fr)
+    minmax(180px, 230px)
+    minmax(180px, 250px);
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-md);
+  background: var(--rm-surface);
+  box-shadow: var(--rm-shadow-sm);
+}
+
+.rm-contracts-table-wrapper {
+  min-height: 160px;
+}
+
+.rm-contracts-table {
+  --bs-table-hover-bg: var(--rm-primary-light);
+
+  font-size: 14px;
+}
+
+.rm-contracts-table thead th {
+  padding: 13px 16px;
+  border-bottom-width: 1px;
+  background: #f8fafc;
+  color: var(--rm-text-muted);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.rm-contracts-table tbody td {
+  padding: 14px 16px;
+  border-color: var(--rm-border);
+  color: var(--rm-text);
+  vertical-align: middle;
+}
+
+.rm-contract-badge,
+.rm-contract-expiring-badge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rm-contract-badge::before,
+.rm-contract-expiring-badge::before {
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.rm-contract-badge--draft {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.rm-contract-badge--active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.rm-contract-badge--ended {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.rm-contract-badge--cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.rm-contract-expiring-badge {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.rm-contract-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.rm-contract-actions .btn {
+  min-width: 52px;
+}
+
+.rm-contract-actions-cell {
+  min-width: 290px;
+  text-align: right;
+}
+
+.rm-contracts-empty {
+  padding: 56px 20px;
+  text-align: center;
+}
+
+.rm-contracts-empty-icon {
+  display: inline-flex;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--rm-primary-light);
+  color: var(--rm-primary);
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.rm-contract-form-modal .modal-content,
+.rm-contract-detail-modal .modal-content {
+  border: 0;
+  border-radius: var(--rm-radius-md);
+  box-shadow: 0 24px 70px rgb(15 23 42 / 22%);
+}
+
+.rm-contract-form-modal .modal-header,
+.rm-contract-detail-modal .modal-header {
+  padding: 20px 22px;
+}
+
+.rm-contract-form-modal .modal-body,
+.rm-contract-detail-modal .modal-body {
+  padding: 22px;
+}
+
+.rm-contract-form-modal .modal-footer,
+.rm-contract-detail-modal .modal-footer {
+  padding: 16px 22px 20px;
+}
+
+.rm-contract-form-modal .form-label {
+  margin-bottom: 7px;
+  color: var(--rm-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rm-contract-form-modal .form-control,
+.rm-contract-form-modal .form-select {
+  min-height: 42px;
+  border-color: var(--rm-border);
+  border-radius: var(--rm-radius-sm);
+}
+
+.rm-contract-form-modal textarea.form-control {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.rm-contract-form-modal .form-control:focus,
+.rm-contract-form-modal .form-select:focus {
+  border-color: var(--rm-primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 14%);
+}
+
+.rm-contract-form-modal .form-control.is-invalid,
+.rm-contract-form-modal .form-select.is-invalid,
+.rm-contract-roommate-options.is-invalid {
+  border-color: var(--rm-danger);
+  box-shadow: none;
+}
+
+.rm-contract-roommate-options {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 220px;
+  padding: 12px;
+  overflow-y: auto;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-sm);
+  background: #f8fafc;
+}
+
+.rm-contract-roommate-options.is-invalid {
+  border: 1px solid var(--rm-danger);
+}
+
+.rm-contract-roommate-option {
+  min-width: 0;
+  padding: 9px 10px 9px 34px;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-sm);
+  background: #ffffff;
+}
+
+.rm-contract-roommate-option .form-check-label {
+  display: block;
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rm-contract-occupancy-info {
+  margin-top: 8px;
+}
+
+.rm-contract-detail-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rm-border);
+}
+
+.rm-contract-detail-section-title {
+  margin: 0 0 12px;
+  color: var(--rm-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (max-width: 1199.98px) {
+  .rm-contracts-toolbar {
+    grid-template-columns:
+      minmax(240px, 1fr)
+      minmax(180px, 220px);
+  }
+
+  .rm-contracts-search {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .rm-contracts-heading {
+    align-items: stretch;
+  }
+
+  .rm-contracts-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-contracts-search {
+    grid-column: auto;
+  }
+
+  .rm-contracts-table-wrapper {
+    overflow: visible;
+  }
+
+  .rm-contracts-table {
+    display: block;
+  }
+
+  .rm-contracts-table thead {
+    display: none;
+  }
+
+  .rm-contracts-table tbody {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .rm-contracts-table tbody tr {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--rm-border);
+    border-radius: var(--rm-radius-md);
+    background: #ffffff;
+    box-shadow: var(--rm-shadow-sm);
+  }
+
+  .rm-contracts-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(110px, 40%) 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rm-border);
+    text-align: right;
+  }
+
+  .rm-contracts-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .rm-contracts-table tbody td::before {
+    color: var(--rm-text-muted);
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 650;
+    text-align: left;
+  }
+
+  .rm-contract-actions-cell {
+    min-width: 0;
+  }
+
+  .rm-contract-actions {
+    justify-content: flex-end;
+  }
+
+  .rm-contract-roommate-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .rm-contracts-heading {
+    flex-direction: column;
+  }
+
+  .rm-contracts-heading > .btn {
+    width: 100%;
+  }
+
+  .rm-contracts-toolbar {
+    padding: 14px;
+  }
+
+  .rm-contracts-table tbody {
+    padding: 10px;
+  }
+
+  .rm-contracts-table tbody td {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .rm-contract-form-modal .modal-dialog,
+  .rm-contract-detail-modal .modal-dialog {
+    margin: 10px;
+  }
+
+  .rm-contract-form-modal .modal-footer,
+  .rm-contract-detail-modal .modal-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rm-contract-form-modal .modal-footer .btn,
+  .rm-contract-detail-modal .modal-footer .btn {
+    width: 100%;
+    margin: 0;
+  }
+}
