@@ -1,8 +1,14 @@
-import { beforeEach } from 'vitest';
+import {
+  beforeEach,
+  afterEach,
+  vi
+} from 'vitest';
 
 beforeEach(() => {
-  localStorage.clear();
-  sessionStorage.clear();
+  window.localStorage.clear();
+  window.sessionStorage.clear();
+});
 
-  document.body.replaceChildren();
+afterEach(() => {
+  vi.restoreAllMocks();
 });

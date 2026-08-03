@@ -46,15 +46,13 @@ export default defineConfig({
       ],
 
       include: [
-        'src/business/**/*.js',
-        'src/services/**/*.js'
+        'src/**/*.js'
       ],
 
       exclude: [
-        'src/**/*.test.js',
-        'src/**/*.spec.js',
-        'src/**/__tests__/**',
-        'src/**/__mocks__/**'
+        'src/main.js',
+        'src/data/seeds/**',
+        'src/data/migrations/**'
       ]
     }
   }
