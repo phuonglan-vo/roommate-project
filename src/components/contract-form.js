@@ -440,8 +440,11 @@ export function createContractForm({
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
-    }
-  });
+    },
+
+    dataset: {
+      testid: 'contract-form-close'
+    }});
 
   const generalError = createElement('div', {
     className: 'alert alert-danger d-none',
@@ -584,6 +587,8 @@ export function createContractForm({
       attributes: {
         id: CONTRACT_FORM_MODAL_ID,
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby':
           'contractFormTitle',
         'aria-hidden': 'true'

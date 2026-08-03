@@ -409,8 +409,11 @@ export function createRoomForm({
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
-    }
-  });
+    },
+
+    dataset: {
+      testid: 'room-form-close'
+    }});
 
   const modalHeader = createElement(
     'div',
@@ -518,6 +521,8 @@ export function createRoomForm({
       attributes: {
         id: ROOM_FORM_MODAL_ID,
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby': 'roomFormTitle',
         'aria-hidden': 'true'
       },

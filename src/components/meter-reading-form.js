@@ -523,8 +523,11 @@ export function createMeterReadingForm({
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
-    }
-  });
+    },
+
+    dataset: {
+      testid: 'meter-form-close'
+    }});
 
   const generalError = createElement('div', {
     className:
@@ -768,6 +771,8 @@ export function createMeterReadingForm({
           METER_FORM_MODAL_ID,
 
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
 
         'aria-labelledby':
           'meterReadingFormTitle',

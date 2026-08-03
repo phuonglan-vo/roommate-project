@@ -443,8 +443,11 @@ export function createInvoiceForm({
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
-    }
-  });
+    },
+
+    dataset: {
+      testid: 'invoice-form-close'
+    }});
 
   const generalError = createElement('div', {
     className:
@@ -680,6 +683,8 @@ export function createInvoiceForm({
       attributes: {
         id: INVOICE_FORM_MODAL_ID,
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
 
         'aria-labelledby':
           'invoiceFormTitle',

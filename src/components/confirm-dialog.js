@@ -67,7 +67,8 @@ export function createConfirmDialog() {
     attributes: {
       type: 'button',
       'data-bs-dismiss': 'modal',
-      'aria-label': 'Đóng hộp thoại'
+      'aria-label': 'Đóng hộp thoại',
+      'data-testid': 'confirm-dialog-close'
     }
   });
 
@@ -146,6 +147,8 @@ export function createConfirmDialog() {
       attributes: {
         id: CONFIRM_DIALOG_ID,
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby': 'roommateConfirmDialogTitle',
         'aria-describedby': 'roommateConfirmDialogMessage',
         'aria-hidden': 'true',

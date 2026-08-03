@@ -210,6 +210,9 @@ export function createInvoiceDetail() {
               type: 'button',
               'data-bs-dismiss': 'modal',
               'aria-label': 'Đóng'
+            },
+            dataset: {
+              testid: 'invoice-detail-close-icon'
             }
           })
         ]
@@ -258,6 +261,8 @@ export function createInvoiceDetail() {
           'invoiceDetailModal',
 
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
 
         'aria-labelledby':
           'invoiceDetailTitle',

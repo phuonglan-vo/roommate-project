@@ -101,7 +101,8 @@ export function showToast({
     attributes: {
       type: 'button',
       'data-bs-dismiss': 'toast',
-      'aria-label': 'Đóng thông báo'
+      'aria-label': 'Đóng thông báo',
+      'data-testid': 'toast-close'
     }
   });
 

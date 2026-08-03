@@ -440,8 +440,11 @@ export function createTenantForm({
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
-    }
-  });
+    },
+
+    dataset: {
+      testid: 'tenant-form-close'
+    }});
 
   const modalHeader = createElement(
     'div',
@@ -583,6 +586,8 @@ export function createTenantForm({
       attributes: {
         id: TENANT_FORM_MODAL_ID,
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby': 'tenantFormTitle',
         'aria-hidden': 'true'
       },

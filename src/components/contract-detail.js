@@ -102,6 +102,8 @@ export function createContractDetail() {
       attributes: {
         id: 'contractDetailModal',
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby':
           'contractDetailTitle',
         'aria-hidden': 'true'
@@ -138,6 +140,9 @@ export function createContractDetail() {
                       'data-bs-dismiss':
                         'modal',
                       'aria-label': 'Đóng'
+                    },
+                    dataset: {
+                      testid: 'contract-detail-close-icon'
                     }
                   })
                 ]

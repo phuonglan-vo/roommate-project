@@ -502,8 +502,11 @@ export function createPaymentForm({
         type: 'button',
         'data-bs-dismiss': 'modal',
         'aria-label': 'Đóng'
-      }
-    });
+      },
+
+    dataset: {
+      testid: 'payment-form-close'
+    }});
 
   const generalError =
     createElement('div', {
@@ -791,6 +794,8 @@ export function createPaymentForm({
           PAYMENT_FORM_MODAL_ID,
 
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
 
         'aria-labelledby':
           'paymentFormTitle',
