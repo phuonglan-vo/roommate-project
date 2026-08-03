@@ -1,31 +1,17 @@
 import { defineConfig } from 'vite';
 
-const GITHUB_PAGES_BASE = '/roommate-project/';
-
-function normalizeBasePath(value) {
-  const normalizedValue = String(value ?? '').trim();
-
-  if (!normalizedValue || normalizedValue === '/') {
-    return '/';
-  }
-
-  return `/${normalizedValue.replace(/^\/+|\/+$/g, '')}/`;
-}
-
-function getBasePath() {
-  if (process.env.BASE_PATH) {
-    return normalizeBasePath(process.env.BASE_PATH);
-  }
-
-  if (process.env.GITHUB_ACTIONS === 'true') {
-    return GITHUB_PAGES_BASE;
-  }
-
-  return '/';
-}
-
-export default defineConfig({
-  base: getBasePath(),
+export default defineConfig(({ command }) => ({
+  /*
+   * Local:
+   * http://127.0.0.1:5173/
+   *
+   * GitHub Pages:
+   * https://phuonglan-vo.github.io/roommate-project/
+   */
+  base:
+    command === 'build'
+      ? '/roommate-project/'
+      : '/',
 
   server: {
     host: '127.0.0.1',
@@ -43,4 +29,4 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true
   }
-});
+}));
