@@ -1,0 +1,547 @@
+.rm-invoices-page {
+  display: grid;
+  gap: 20px;
+}
+
+.rm-invoices-heading {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.rm-invoices-toolbar {
+  display: grid;
+  grid-template-columns:
+    minmax(240px, 1fr)
+    minmax(260px, 340px)
+    minmax(190px, 250px)
+    minmax(210px, 270px);
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-md);
+  background: var(--rm-surface);
+  box-shadow: var(--rm-shadow-sm);
+}
+
+.rm-invoices-toolbar .form-label {
+  margin-bottom: 7px;
+  color: var(--rm-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.rm-invoices-table-wrapper {
+  min-height: 170px;
+}
+
+.rm-invoices-table-wrapper[hidden],
+.rm-invoices-empty[hidden] {
+  display: none !important;
+}
+
+.rm-invoices-table {
+  --bs-table-hover-bg:
+    var(--rm-primary-light);
+
+  font-size: 14px;
+}
+
+.rm-invoices-table thead th {
+  padding: 13px 14px;
+  border-bottom-width: 1px;
+  background: #f8fafc;
+  color: var(--rm-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.rm-invoices-table tbody td {
+  padding: 14px;
+  border-color: var(--rm-border);
+  color: var(--rm-text);
+  vertical-align: middle;
+}
+
+.rm-invoice-debt {
+  color: #b91c1c !important;
+  font-weight: 650;
+}
+
+.rm-invoice-badge {
+  display: inline-flex;
+  min-height: 25px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rm-invoice-badge::before {
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.rm-invoice-badge--draft {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.rm-invoice-badge--finalized {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.rm-invoice-badge--cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.rm-invoice-badge--unpaid {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.rm-invoice-badge--partial {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.rm-invoice-badge--paid {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.rm-invoice-badge--overdue {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.rm-invoice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.rm-invoice-actions .btn {
+  min-width: 48px;
+}
+
+.rm-invoice-actions-cell {
+  min-width: 260px;
+  text-align: right;
+}
+
+.rm-invoices-empty {
+  padding: 56px 20px;
+  text-align: center;
+}
+
+.rm-invoices-empty-icon {
+  display: inline-flex;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--rm-primary-light);
+  color: var(--rm-primary);
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.rm-invoice-form-modal .modal-content,
+.rm-invoice-detail-modal .modal-content {
+  border: 0;
+  border-radius: var(--rm-radius-md);
+  box-shadow:
+    0 24px 70px
+    rgb(15 23 42 / 22%);
+}
+
+.rm-invoice-form-modal .modal-header,
+.rm-invoice-detail-modal .modal-header {
+  padding: 20px 22px;
+}
+
+.rm-invoice-form-modal .modal-body,
+.rm-invoice-detail-modal .modal-body {
+  padding: 22px;
+}
+
+.rm-invoice-form-modal .modal-footer,
+.rm-invoice-detail-modal .modal-footer {
+  padding: 16px 22px 20px;
+}
+
+.rm-invoice-form-modal .form-label {
+  margin-bottom: 7px;
+  color: var(--rm-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rm-invoice-form-modal .form-control,
+.rm-invoice-form-modal .form-select {
+  min-height: 42px;
+  border-color: var(--rm-border);
+  border-radius: var(--rm-radius-sm);
+}
+
+.rm-invoice-form-modal textarea.form-control {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.rm-invoice-form-modal .form-control:focus,
+.rm-invoice-form-modal .form-select:focus {
+  border-color: var(--rm-primary);
+  box-shadow:
+    0 0 0 3px
+    rgb(37 99 235 / 14%);
+}
+
+.rm-invoice-form-modal .form-control.is-invalid,
+.rm-invoice-form-modal .form-select.is-invalid {
+  border-color: var(--rm-danger);
+  box-shadow: none;
+}
+
+.rm-invoice-form-section-title {
+  margin: 0 0 12px;
+  color: var(--rm-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.rm-invoice-form-items-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rm-border);
+}
+
+.rm-invoice-form-items-section[hidden] {
+  display: none !important;
+}
+
+.rm-invoice-form-items-table {
+  min-width: 680px;
+  font-size: 13px;
+}
+
+.rm-invoice-form-items-table thead th {
+  padding: 10px 12px;
+  background: #f8fafc;
+  color: var(--rm-text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.rm-invoice-form-items-table td {
+  padding: 10px 12px;
+}
+
+.rm-invoice-detail-header {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rm-border);
+}
+
+.rm-invoice-detail-brand {
+  margin-bottom: 8px;
+  color: var(--rm-primary);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.rm-invoice-detail-information {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.rm-invoice-detail-info-item {
+  display: grid;
+  gap: 4px;
+  padding: 13px 14px;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-sm);
+  background: #f8fafc;
+}
+
+.rm-invoice-detail-info-item span {
+  color: var(--rm-text-muted);
+  font-size: 12px;
+}
+
+.rm-invoice-detail-items-table {
+  font-size: 14px;
+}
+
+.rm-invoice-detail-items-table thead th {
+  padding: 11px 12px;
+  background: #f8fafc;
+  color: var(--rm-text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.rm-invoice-detail-items-table td {
+  padding: 12px;
+  border-color: var(--rm-border);
+}
+
+.rm-invoice-detail-totals {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 420px);
+  margin: 20px 0 0 auto;
+  padding: 16px;
+  border: 1px solid var(--rm-border);
+  border-radius: var(--rm-radius-md);
+  background: #f8fafc;
+}
+
+.rm-invoice-detail-totals > div {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rm-invoice-detail-total-row {
+  padding-top: 10px;
+  border-top: 1px solid var(--rm-border);
+  color: var(--rm-primary);
+  font-size: 17px;
+}
+
+.rm-invoice-detail-debt-row {
+  color: #b91c1c;
+}
+
+.rm-invoice-detail-note {
+  display: grid;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: var(--rm-radius-sm);
+  background: #f8fafc;
+}
+
+.rm-invoice-detail-footer-text {
+  margin: 28px 0 0;
+  color: var(--rm-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 1199.98px) {
+  .rm-invoices-toolbar {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .rm-invoice-search-field {
+    grid-column: 1 / -1;
+  }
+
+  .rm-invoices-table {
+    min-width: 1180px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .rm-invoices-heading {
+    align-items: stretch;
+  }
+
+  .rm-invoices-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .rm-invoice-search-field {
+    grid-column: auto;
+  }
+
+  .rm-invoices-table-wrapper {
+    overflow: visible;
+  }
+
+  .rm-invoices-table {
+    display: block;
+    min-width: 0;
+  }
+
+  .rm-invoices-table thead {
+    display: none;
+  }
+
+  .rm-invoices-table tbody {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .rm-invoices-table tbody tr {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--rm-border);
+    border-radius: var(--rm-radius-md);
+    background: #ffffff;
+    box-shadow: var(--rm-shadow-sm);
+  }
+
+  .rm-invoices-table tbody td {
+    display: grid;
+    grid-template-columns:
+      minmax(110px, 40%)
+      1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom:
+      1px solid
+      var(--rm-border);
+    text-align: right;
+  }
+
+  .rm-invoices-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .rm-invoices-table tbody td::before {
+    color: var(--rm-text-muted);
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 650;
+    text-align: left;
+  }
+
+  .rm-invoice-actions-cell {
+    min-width: 0;
+  }
+
+  .rm-invoice-actions {
+    justify-content: flex-end;
+  }
+
+  .rm-invoice-detail-header {
+    flex-direction: column;
+  }
+
+  .rm-invoice-detail-information {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .rm-invoices-heading {
+    flex-direction: column;
+  }
+
+  .rm-invoices-heading
+    > .d-flex {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rm-invoices-toolbar {
+    padding: 14px;
+  }
+
+  .rm-invoices-table tbody {
+    padding: 10px;
+  }
+
+  .rm-invoices-table tbody td {
+    grid-template-columns:
+      96px
+      1fr;
+  }
+
+  .rm-invoice-form-modal .modal-dialog,
+  .rm-invoice-detail-modal .modal-dialog {
+    margin: 10px;
+  }
+
+  .rm-invoice-form-modal .modal-footer,
+  .rm-invoice-detail-modal .modal-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rm-invoice-form-modal
+    .modal-footer
+    .btn,
+  .rm-invoice-detail-modal
+    .modal-footer
+    .btn {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media print {
+  body.rm-printing-invoice * {
+    visibility: hidden !important;
+  }
+
+  body.rm-printing-invoice
+    .rm-invoice-print-area,
+  body.rm-printing-invoice
+    .rm-invoice-print-area * {
+    visibility: visible !important;
+  }
+
+  body.rm-printing-invoice
+    .rm-invoice-print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 0;
+    box-shadow: none;
+  }
+
+  body.rm-printing-invoice
+    .rm-invoice-no-print,
+  body.rm-printing-invoice
+    .modal-backdrop {
+    display: none !important;
+  }
+
+  body.rm-printing-invoice
+    .modal-body {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.rm-printing-invoice
+    .rm-invoice-detail-items-table {
+    page-break-inside: auto;
+  }
+
+  body.rm-printing-invoice
+    .rm-invoice-detail-items-table
+    tr {
+    page-break-inside: avoid;
+  }
+}
