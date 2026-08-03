@@ -148,8 +148,9 @@ function createStatusBadge({
       text: 'Chưa ghi',
 
       dataset: {
-        testid:
-          'meter-status-missing'
+        testid: 'meter-status-badge',
+
+        status: 'missing'
       }
     });
   }
@@ -162,8 +163,9 @@ function createStatusBadge({
       text: 'Bất thường',
 
       dataset: {
-        testid:
-          'meter-status-abnormal'
+        testid: 'meter-status-badge',
+
+        status: 'abnormal'
       }
     });
   }
@@ -176,8 +178,9 @@ function createStatusBadge({
       text: 'Đã lập hóa đơn',
 
       dataset: {
-        testid:
-          'meter-status-invoiced'
+        testid: 'meter-status-badge',
+
+        status: 'invoiced'
       }
     });
   }
@@ -189,8 +192,9 @@ function createStatusBadge({
     text: 'Đã ghi',
 
     dataset: {
-      testid:
-        'meter-status-recorded'
+      testid: 'meter-status-badge',
+
+      status: 'recorded'
     }
   });
 }

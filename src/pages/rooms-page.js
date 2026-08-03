@@ -78,7 +78,8 @@ function createStatusBadge(status) {
     className: `rm-room-badge ${badgeClass}`,
     text: label,
     dataset: {
-      testid: `room-status-${status}`
+      testid: 'room-status-badge',
+      status
     }
   });
 }
@@ -145,6 +146,9 @@ function createRoomDetailDialog() {
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
+    },
+    dataset: {
+      testid: 'room-detail-close-icon'
     }
   });
 
@@ -169,6 +173,9 @@ function createRoomDetailDialog() {
     attributes: {
       type: 'button',
       'data-bs-dismiss': 'modal'
+    },
+    dataset: {
+      testid: 'room-detail-close'
     }
   });
 
@@ -203,6 +210,8 @@ function createRoomDetailDialog() {
       attributes: {
         id: 'roomDetailModal',
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby': 'roomDetailTitle',
         'aria-hidden': 'true'
       },
@@ -339,6 +348,7 @@ export function createRoomsPage() {
   const searchInput = createElement('input', {
     className: 'form-control',
     attributes: {
+      id: 'room-search-input',
       type: 'search',
       placeholder: 'Tìm theo mã hoặc tên phòng',
       'aria-label': 'Tìm kiếm phòng'
@@ -351,6 +361,7 @@ export function createRoomsPage() {
   const statusFilter = createElement('select', {
     className: 'form-select',
     attributes: {
+      id: 'room-status-filter',
       'aria-label': 'Lọc theo trạng thái'
     },
     dataset: {
@@ -381,6 +392,7 @@ export function createRoomsPage() {
   const sortSelect = createElement('select', {
     className: 'form-select',
     attributes: {
+      id: 'room-price-sort',
       'aria-label': 'Sắp xếp theo giá thuê'
     },
     dataset: {
@@ -420,21 +432,48 @@ export function createRoomsPage() {
         {
           className: 'rm-rooms-search'
         },
-        [searchInput]
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Tìm kiếm phòng',
+            attributes: {
+              for: 'room-search-input'
+            }
+          }),
+          searchInput
+        ]
       ),
       createElement(
         'div',
         {
           className: 'rm-rooms-filter'
         },
-        [statusFilter]
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Trạng thái phòng',
+            attributes: {
+              for: 'room-status-filter'
+            }
+          }),
+          statusFilter
+        ]
       ),
       createElement(
         'div',
         {
           className: 'rm-rooms-sort'
         },
-        [sortSelect]
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Sắp xếp theo giá thuê',
+            attributes: {
+              for: 'room-price-sort'
+            }
+          }),
+          sortSelect
+        ]
       )
     ]
   );

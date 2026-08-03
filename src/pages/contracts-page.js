@@ -150,7 +150,8 @@ function createStatusBadge(status) {
       status ??
       'Không xác định',
     dataset: {
-      testid: `contract-status-${status}`
+      testid: 'contract-status-badge',
+      status
     }
   });
 }
@@ -226,6 +227,9 @@ function createDateActionDialog() {
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
+    },
+    dataset: {
+      testid: 'contract-date-dialog-close'
     }
   });
 
@@ -291,6 +295,9 @@ function createDateActionDialog() {
             attributes: {
               type: 'button',
               'data-bs-dismiss': 'modal'
+            },
+            dataset: {
+              testid: 'contract-date-dialog-cancel'
             }
           }),
           createElement('button', {
@@ -316,6 +323,8 @@ function createDateActionDialog() {
       attributes: {
         id: 'contractDateActionModal',
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby':
           'contractDateActionTitle',
         'aria-hidden': 'true'
@@ -508,6 +517,7 @@ export function createContractsPage() {
   const searchInput = createElement('input', {
     className: 'form-control',
     attributes: {
+      id: 'contract-search-input',
       type: 'search',
       placeholder: 'Tìm theo mã hợp đồng',
       'aria-label': 'Tìm theo mã hợp đồng'
@@ -520,6 +530,7 @@ export function createContractsPage() {
   const statusFilter = createElement('select', {
     className: 'form-select',
     attributes: {
+      id: 'contract-status-filter',
       'aria-label':
         'Lọc hợp đồng theo trạng thái'
     },
@@ -554,6 +565,7 @@ export function createContractsPage() {
   const roomFilter = createElement('select', {
     className: 'form-select',
     attributes: {
+      id: 'contract-room-filter',
       'aria-label': 'Lọc hợp đồng theo phòng'
     },
     dataset: {
@@ -572,10 +584,45 @@ export function createContractsPage() {
         {
           className: 'rm-contracts-search'
         },
-        [searchInput]
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Tìm kiếm hợp đồng',
+            attributes: {
+              for: 'contract-search-input'
+            }
+          }),
+          searchInput
+        ]
       ),
-      statusFilter,
-      roomFilter
+      createElement(
+        'div',
+        {},
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Trạng thái hợp đồng',
+            attributes: {
+              for: 'contract-status-filter'
+            }
+          }),
+          statusFilter
+        ]
+      ),
+      createElement(
+        'div',
+        {},
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Phòng',
+            attributes: {
+              for: 'contract-room-filter'
+            }
+          }),
+          roomFilter
+        ]
+      )
     ]
   );
 

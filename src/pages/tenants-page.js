@@ -101,7 +101,8 @@ function createStatusBadge(status) {
     className: `rm-tenant-badge ${badgeClass}`,
     text: label,
     dataset: {
-      testid: `tenant-status-${normalizedStatus}`
+      testid: 'tenant-status-badge',
+      status: normalizedStatus
     }
   });
 }
@@ -157,6 +158,9 @@ function createHistoryDialog() {
       type: 'button',
       'data-bs-dismiss': 'modal',
       'aria-label': 'Đóng'
+    },
+    dataset: {
+      testid: 'tenant-history-close-icon'
     }
   });
 
@@ -219,6 +223,8 @@ function createHistoryDialog() {
       attributes: {
         id: 'tenantHistoryModal',
         tabindex: '-1',
+        role: 'dialog',
+        'aria-modal': 'true',
         'aria-labelledby': 'tenantHistoryTitle',
         'aria-hidden': 'true'
       },
@@ -456,6 +462,7 @@ export function createTenantsPage() {
   const searchInput = createElement('input', {
     className: 'form-control',
     attributes: {
+      id: 'tenant-search-input',
       type: 'search',
       placeholder: 'Tìm theo tên, số điện thoại hoặc CCCD',
       'aria-label': 'Tìm kiếm người thuê'
@@ -468,6 +475,7 @@ export function createTenantsPage() {
   const statusFilter = createElement('select', {
     className: 'form-select',
     attributes: {
+      id: 'tenant-status-filter',
       'aria-label': 'Lọc trạng thái người thuê'
     },
     dataset: {
@@ -507,14 +515,32 @@ export function createTenantsPage() {
         {
           className: 'rm-tenants-search'
         },
-        [searchInput]
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Tìm kiếm người thuê',
+            attributes: {
+              for: 'tenant-search-input'
+            }
+          }),
+          searchInput
+        ]
       ),
       createElement(
         'div',
         {
           className: 'rm-tenants-filter'
         },
-        [statusFilter]
+        [
+          createElement('label', {
+            className: 'visually-hidden',
+            text: 'Trạng thái người thuê',
+            attributes: {
+              for: 'tenant-status-filter'
+            }
+          }),
+          statusFilter
+        ]
       )
     ]
   );

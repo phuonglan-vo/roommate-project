@@ -84,8 +84,8 @@ function createStatusBadge(isActive) {
       ],
 
     dataset: {
-      testid:
-        `service-status-${status}`
+      testid: 'service-status-badge',
+      status
     }
   });
 }
@@ -201,6 +201,7 @@ export function createServicesPage() {
     className: 'form-control',
 
     attributes: {
+      id: 'service-search-input',
       type: 'search',
 
       placeholder:
@@ -222,6 +223,7 @@ export function createServicesPage() {
       className: 'form-select',
 
       attributes: {
+        id: 'service-status-filter',
         'aria-label':
           'Lọc dịch vụ theo trạng thái'
       },
@@ -292,7 +294,16 @@ export function createServicesPage() {
                   className:
                     'col-12 col-md-8'
                 },
-                [searchInput]
+                [
+                  createElement('label', {
+                    className: 'visually-hidden',
+                    text: 'Tìm kiếm dịch vụ',
+                    attributes: {
+                      for: 'service-search-input'
+                    }
+                  }),
+                  searchInput
+                ]
               ),
 
               createElement(
@@ -301,7 +312,16 @@ export function createServicesPage() {
                   className:
                     'col-12 col-md-4'
                 },
-                [statusFilter]
+                [
+                  createElement('label', {
+                    className: 'visually-hidden',
+                    text: 'Trạng thái dịch vụ',
+                    attributes: {
+                      for: 'service-status-filter'
+                    }
+                  }),
+                  statusFilter
+                ]
               )
             ]
           )

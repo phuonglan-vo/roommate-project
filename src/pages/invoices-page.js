@@ -219,8 +219,8 @@ function createDocumentBadge(status) {
       'Không xác định',
 
     dataset: {
-      testid:
-        `invoice-document-status-${status}`
+      testid: 'invoice-document-status-badge',
+      status
     }
   });
 }
@@ -241,8 +241,8 @@ function createPaymentBadge(status) {
       'Không xác định',
 
     dataset: {
-      testid:
-        `invoice-payment-status-${status}`
+      testid: 'invoice-payment-status-badge',
+      status
     }
   });
 }

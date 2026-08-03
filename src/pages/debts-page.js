@@ -219,8 +219,8 @@ function createPaymentStatusBadge(
       normalizedStatus,
 
     dataset: {
-      testid:
-        `debt-payment-status-${normalizedStatus}`
+      testid: 'debt-payment-status-badge',
+      status: normalizedStatus
     }
   });
 }
@@ -818,7 +818,9 @@ export function createDebtsPage() {
 
                   dataset: {
                     action:
-                      'close-detail'
+                      'close-detail',
+                    testid:
+                      'debt-invoice-detail-close-icon'
                   }
                 })
               ]
