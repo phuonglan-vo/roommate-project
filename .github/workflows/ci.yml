@@ -1,0 +1,59 @@
+name: RoomMate CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    name: Test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run unit tests
+        run: npx vitest run tests/unit
+
+      - name: Run business tests
+        run: npx vitest run tests/business
+
+      - name: Run Playwright tests
+        id: playwright-tests
+        run: npm run test:e2e
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload Playwright report
+        if: ${{ failure() && steps.playwright-tests.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14
