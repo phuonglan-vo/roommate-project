@@ -447,7 +447,7 @@ export function createTenantsPage() {
       type: 'button'
     },
     dataset: {
-      testid: 'tenant-add-button'
+      testid: 'add-tenant-button'
     }
   });
 
@@ -591,7 +591,7 @@ export function createTenantsPage() {
       className:
         'table align-middle mb-0 rm-tenants-table',
       dataset: {
-        testid: 'tenant-table'
+        testid: 'tenants-table'
       }
     },
     [tableHead, tableBody]

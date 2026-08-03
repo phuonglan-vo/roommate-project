@@ -139,11 +139,10 @@ function formatDisplayDate(value) {
 function createStatusBadge(status) {
   return createElement('span', {
     className:
-      `rm-contract-badge ${
-        STATUS_BADGE_CLASSES[status] ??
-        STATUS_BADGE_CLASSES[
-          CONTRACT_STATUS.DRAFT
-        ]
+      `rm-contract-badge ${STATUS_BADGE_CLASSES[status] ??
+      STATUS_BADGE_CLASSES[
+      CONTRACT_STATUS.DRAFT
+      ]
       }`,
     text:
       CONTRACT_STATUS_LABELS[status] ??
@@ -186,21 +185,27 @@ function createActionButton({
   label,
   className
 }) {
+  const TEST_IDS = {
+    view: 'contract-view-button',
+    edit: 'contract-edit-button',
+    activate: 'contract-activate-button',
+    extend: 'contract-extend-button',
+    end: 'contract-end-button',
+    cancel: 'contract-cancel-button'
+  };
+
   return createElement('button', {
     className,
     text: label,
     attributes: {
       type: 'button',
       'aria-label':
-        `${label} hợp đồng ${
-          contract.code ?? contract.id
-        }`
+        `${label} hợp đồng ${contract.code ?? contract.id}`
     },
     dataset: {
       action,
       contractId: contract.id,
-      testid:
-        `contract-${action}-${contract.id}`
+      testid: TEST_IDS[action]
     }
   });
 }
@@ -490,7 +495,7 @@ export function createContractsPage() {
       type: 'button'
     },
     dataset: {
-      testid: 'contract-add-button'
+      testid: 'add-contract-button'
     }
   });
 
@@ -673,7 +678,7 @@ export function createContractsPage() {
       className:
         'table align-middle mb-0 rm-contracts-table',
       dataset: {
-        testid: 'contract-table'
+        testid: 'contracts-table'
       }
     },
     [tableHead, tableBody]
@@ -780,9 +785,8 @@ export function createContractsPage() {
           type: 'success',
           title: 'Cập nhật hợp đồng',
           message:
-            `Đã cập nhật hợp đồng ${
-              savedContract.code ??
-              savedContract.id
+            `Đã cập nhật hợp đồng ${savedContract.code ??
+            savedContract.id
             }.`
         });
       } else {
@@ -793,9 +797,8 @@ export function createContractsPage() {
           type: 'success',
           title: 'Thêm hợp đồng',
           message:
-            `Đã tạo hợp đồng ${
-              savedContract.code ??
-              savedContract.id
+            `Đã tạo hợp đồng ${savedContract.code ??
+            savedContract.id
             }.`
         });
       }
@@ -1069,7 +1072,7 @@ export function createContractsPage() {
         createTableCell(
           'Người đại diện',
           representative?.fullName ??
-            'Không xác định'
+          'Không xác định'
         ),
         createTableCell(
           'Thời hạn',
@@ -1289,8 +1292,7 @@ export function createContractsPage() {
     const confirmed =
       await showConfirmDialog({
         title:
-          `Kích hoạt ${
-            contract.code ?? contract.id
+          `Kích hoạt ${contract.code ?? contract.id
           }?`,
         message:
           'Phòng sẽ được chuyển sang trạng thái đang thuê.',
@@ -1313,8 +1315,7 @@ export function createContractsPage() {
         type: 'success',
         title: 'Đã kích hoạt',
         message:
-          `Hợp đồng ${
-            activated.code ?? activated.id
+          `Hợp đồng ${activated.code ?? activated.id
           } đang có hiệu lực.`
       });
 
@@ -1335,8 +1336,7 @@ export function createContractsPage() {
     const newEndDate =
       await dateActionDialog.open({
         dialogTitle:
-          `Gia hạn ${
-            contract.code ?? contract.id
+          `Gia hạn ${contract.code ?? contract.id
           }`,
         fieldLabel: 'Ngày kết thúc mới',
         defaultValue:
@@ -1400,8 +1400,7 @@ export function createContractsPage() {
     const actualEndDate =
       await dateActionDialog.open({
         dialogTitle:
-          `Kết thúc ${
-            contract.code ?? contract.id
+          `Kết thúc ${contract.code ?? contract.id
           }`,
         fieldLabel: 'Ngày kết thúc thực tế',
         defaultValue: defaultDate,
@@ -1432,8 +1431,7 @@ export function createContractsPage() {
         type: 'success',
         title: 'Đã kết thúc',
         message:
-          `Hợp đồng ${
-            ended.code ?? ended.id
+          `Hợp đồng ${ended.code ?? ended.id
           } đã kết thúc.`
       });
 
@@ -1454,12 +1452,11 @@ export function createContractsPage() {
     const confirmed =
       await showConfirmDialog({
         title:
-          `Hủy ${
-            contract.code ?? contract.id
+          `Hủy ${contract.code ?? contract.id
           }?`,
         message:
           contract.status ===
-          CONTRACT_STATUS.ACTIVE
+            CONTRACT_STATUS.ACTIVE
             ? 'Hợp đồng đang hiệu lực sẽ bị hủy và phòng có thể được chuyển thành trống.'
             : 'Hợp đồng nháp sẽ được chuyển sang trạng thái đã hủy.',
         confirmText: 'Hủy hợp đồng',
@@ -1481,8 +1478,7 @@ export function createContractsPage() {
         type: 'success',
         title: 'Đã hủy hợp đồng',
         message:
-          `Đã hủy ${
-            cancelled.code ?? cancelled.id
+          `Đã hủy ${cancelled.code ?? cancelled.id
           }.`
       });
 

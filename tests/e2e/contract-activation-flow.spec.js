@@ -505,15 +505,36 @@ async function confirmActionIfVisible(
       TEST_ID.confirmDialog
     );
 
-  if (
-    await confirmDialog.isVisible()
-  ) {
-    await page
-      .getByTestId(
-        TEST_ID.confirmButton
-      )
-      .click();
-  }
+  /*
+   * Chờ dialog xuất hiện thay vì kiểm tra
+   * ngay lập tức bằng isVisible().
+   */
+  await expect(
+    confirmDialog
+  ).toBeVisible();
+
+  const confirmButton =
+    page.getByTestId(
+      TEST_ID.confirmButton
+    );
+
+  await expect(
+    confirmButton
+  ).toBeVisible();
+
+  await expect(
+    confirmButton
+  ).toBeEnabled();
+
+  await confirmButton.click();
+
+  /*
+   * Chờ dialog đóng để chắc chắn thao tác
+   * kích hoạt đã hoàn tất.
+   */
+  await expect(
+    confirmDialog
+  ).toBeHidden();
 }
 
 test.describe(

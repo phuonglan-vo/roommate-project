@@ -251,10 +251,20 @@ function mapServiceError(message) {
     return 'code';
   }
 
+  /*
+   * CONTRACT-06 là lỗi nghiệp vụ tổng quát.
+   * Trả về null để hiển thị trong
+   * data-testid="contract-form-error".
+   */
   if (
     normalizedMessage.includes(
       'trùng thời gian'
-    ) ||
+    )
+  ) {
+    return null;
+  }
+
+  if (
     normalizedMessage.includes(
       'ngày kết thúc'
     )
@@ -299,13 +309,17 @@ function mapServiceError(message) {
   }
 
   if (
-    normalizedMessage.includes('giá thuê')
+    normalizedMessage.includes(
+      'giá thuê'
+    )
   ) {
     return 'rentAmount';
   }
 
   if (
-    normalizedMessage.includes('tiền cọc')
+    normalizedMessage.includes(
+      'tiền cọc'
+    )
   ) {
     return 'depositAmount';
   }
@@ -338,14 +352,14 @@ export function createContractForm({
       label: 'Mã hợp đồng',
       required: true,
       placeholder: 'Ví dụ: HD-P101-2026-01',
-      testId: 'contract-form-code'
+      testId: 'contract-code-input'
     }),
 
     roomId: createSelectField({
       name: 'roomId',
       label: 'Phòng',
       required: true,
-      testId: 'contract-form-room'
+      testId: 'contract-room-select'
     }),
 
     representativeTenantId:
@@ -354,7 +368,7 @@ export function createContractForm({
         label: 'Người đại diện',
         required: true,
         testId:
-          'contract-form-representative'
+          'contract-representative-select'
       }),
 
     signedDate: createInputField({
@@ -369,7 +383,7 @@ export function createContractForm({
       label: 'Ngày bắt đầu',
       type: 'date',
       required: true,
-      testId: 'contract-form-start-date'
+      testId: 'contract-start-date-input'
     }),
 
     endDate: createInputField({
@@ -377,7 +391,7 @@ export function createContractForm({
       label: 'Ngày kết thúc',
       type: 'date',
       required: true,
-      testId: 'contract-form-end-date'
+      testId: 'contract-end-date-input'
     }),
 
     rentAmount: createInputField({
@@ -387,7 +401,7 @@ export function createContractForm({
       required: true,
       min: '0',
       step: '1000',
-      testId: 'contract-form-rent'
+      testId: 'contract-rent-input'
     }),
 
     depositAmount: createInputField({
@@ -397,7 +411,7 @@ export function createContractForm({
       required: true,
       min: '0',
       step: '1000',
-      testId: 'contract-form-deposit'
+      testId: 'contract-deposit-input'
     }),
 
     dueDay: createInputField({
@@ -444,7 +458,8 @@ export function createContractForm({
 
     dataset: {
       testid: 'contract-form-close'
-    }});
+    }
+  });
 
   const generalError = createElement('div', {
     className: 'alert alert-danger d-none',
@@ -452,7 +467,7 @@ export function createContractForm({
       role: 'alert'
     },
     dataset: {
-      testid: 'contract-form-general-error'
+      testid: 'contract-form-error'
     }
   });
 
@@ -527,7 +542,7 @@ export function createContractForm({
       type: 'submit'
     },
     dataset: {
-      testid: 'contract-form-submit'
+      testid: 'contract-submit-button'
     }
   });
 
@@ -937,8 +952,8 @@ export function createContractForm({
       dueDay:
         fields.dueDay.control.value
           ? Number(
-              fields.dueDay.control.value
-            )
+            fields.dueDay.control.value
+          )
           : 10,
 
       status: currentContractStatus,
@@ -1024,7 +1039,7 @@ export function createContractForm({
     if (
       room &&
       data.tenantIds.length >
-        room.maxOccupants
+      room.maxOccupants
     ) {
       errors.tenantIds =
         `Số người thuê (${data.tenantIds.length}) vượt quá sức chứa phòng (${room.maxOccupants}).`;
@@ -1149,7 +1164,7 @@ export function createContractForm({
       (
         !contract ||
         contract.status !==
-          CONTRACT_STATUS.DRAFT
+        CONTRACT_STATUS.DRAFT
       )
     ) {
       throw new Error(
@@ -1170,9 +1185,8 @@ export function createContractForm({
 
     modalTitle.textContent =
       nextMode === 'edit'
-        ? `Sửa ${
-            contract.code ?? contract.id
-          }`
+        ? `Sửa ${contract.code ?? contract.id
+        }`
         : 'Thêm hợp đồng';
 
     populateForm(contract);
@@ -1237,7 +1251,7 @@ export function createContractForm({
       if (
         fieldName === 'roomId' ||
         fieldName ===
-          'representativeTenantId'
+        'representativeTenantId'
       ) {
         return;
       }

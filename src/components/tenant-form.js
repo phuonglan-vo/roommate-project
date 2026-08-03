@@ -303,7 +303,7 @@ export function createTenantForm({
       label: 'Họ và tên',
       required: true,
       placeholder: 'Ví dụ: Nguyễn Văn An',
-      testId: 'tenant-form-full-name'
+      testId: 'tenant-full-name-input'
     }),
 
     phone: createInputField({
@@ -311,14 +311,14 @@ export function createTenantForm({
       label: 'Số điện thoại',
       required: true,
       placeholder: 'Ví dụ: 0901234567',
-      testId: 'tenant-form-phone'
+      testId: 'tenant-phone-input'
     }),
 
     identityNumber: createInputField({
       name: 'identityNumber',
       label: 'CCCD / CMND',
       placeholder: '9 hoặc 12 chữ số',
-      testId: 'tenant-form-identity'
+      testId: 'tenant-identity-number-input'
     }),
 
     dateOfBirth: createInputField({
@@ -357,14 +357,14 @@ export function createTenantForm({
       label: 'Email',
       type: 'email',
       placeholder: 'example@email.com',
-      testId: 'tenant-form-email'
+      testId: 'tenant-email-input'
     }),
 
     permanentAddress: createInputField({
       name: 'permanentAddress',
       label: 'Địa chỉ thường trú',
       placeholder: 'Nhập địa chỉ',
-      testId: 'tenant-form-address',
+      testId: 'tenant-address-input',
       columnClass: 'col-12'
     }),
 
@@ -540,7 +540,7 @@ export function createTenantForm({
       type: 'submit'
     },
     dataset: {
-      testid: 'tenant-form-submit'
+      testid: 'tenant-submit-button'
     }
   });
 
