@@ -2,7 +2,8 @@ import Chart from 'chart.js/auto';
 
 import '../styles/dashboard.css';
 
-import reportService from '../services/report-service.js';
+import reportService
+  from '../services/report-service.js';
 
 import {
   createStatCard

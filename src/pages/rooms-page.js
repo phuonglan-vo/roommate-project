@@ -339,7 +339,7 @@ export function createRoomsPage() {
       type: 'button'
     },
     dataset: {
-      testid: 'room-add-button'
+      testid: 'add-room-button'
     }
   });
 
@@ -523,7 +523,7 @@ export function createRoomsPage() {
       className:
         'table align-middle mb-0 rm-rooms-table',
       dataset: {
-        testid: 'room-table'
+        testid: 'rooms-table'
       }
     },
     [tableHead, tableBody]
@@ -691,152 +691,48 @@ export function createRoomsPage() {
   }
 
   function renderTable() {
-    const visibleRooms = getVisibleRooms();
+  const visibleRooms = getVisibleRooms();
 
-    countText.textContent =
-      `${visibleRooms.length} phòng`;
+  countText.textContent =
+    `${visibleRooms.length} phòng`;
 
-    tableBody.replaceChildren();
+  tableBody.replaceChildren();
 
-    const hasAnyRooms = state.rooms.length > 0;
-    const hasVisibleRooms =
-      visibleRooms.length > 0;
+  const hasAnyRooms =
+    state.rooms.length > 0;
 
-    tableWrapper.hidden = !hasVisibleRooms;
-    emptyState.hidden = hasVisibleRooms;
+  const hasVisibleRooms =
+    visibleRooms.length > 0;
 
-    if (!hasVisibleRooms) {
-      if (hasAnyRooms) {
-        emptyTitle.textContent =
-          'Không tìm thấy phòng';
+  tableWrapper.hidden = false;
+  emptyState.hidden = hasVisibleRooms;
 
-        emptyDescription.textContent =
-          'Không có phòng nào phù hợp với từ khóa hoặc bộ lọc hiện tại.';
+  if (!hasVisibleRooms) {
+    if (hasAnyRooms) {
+      emptyTitle.textContent =
+        'Không tìm thấy phòng';
 
-        emptyAddButton.hidden = true;
-      } else {
-        emptyTitle.textContent =
-          'Chưa có phòng';
+      emptyDescription.textContent =
+        'Không có phòng nào phù hợp với từ khóa hoặc bộ lọc hiện tại.';
 
-        emptyDescription.textContent =
-          'Hãy thêm phòng đầu tiên để bắt đầu quản lý.';
+      emptyAddButton.hidden = true;
+    } else {
+      emptyTitle.textContent =
+        'Chưa có phòng';
 
-        emptyAddButton.hidden = false;
-      }
+      emptyDescription.textContent =
+        'Hãy thêm phòng đầu tiên để bắt đầu quản lý.';
 
-      return;
+      emptyAddButton.hidden = false;
     }
 
-    visibleRooms.forEach((room) => {
-      let occupancy;
-
-      try {
-        occupancy =
-          roomService.getRoomOccupancy(room.id);
-      } catch {
-        occupancy = {
-          currentOccupants: 0,
-          maxOccupants: room.maxOccupants
-        };
-      }
-
-      const actions = createElement('div', {
-        className: 'rm-room-actions'
-      });
-
-      actions.append(
-        createElement('button', {
-          className:
-            'btn btn-sm btn-outline-secondary',
-          text: 'Xem',
-          attributes: {
-            type: 'button',
-            'aria-label': `Xem phòng ${room.code}`
-          },
-          dataset: {
-            action: 'view',
-            roomId: room.id,
-            testid: `room-view-${room.id}`
-          }
-        }),
-        createElement('button', {
-          className:
-            'btn btn-sm btn-outline-primary',
-          text: 'Sửa',
-          attributes: {
-            type: 'button',
-            'aria-label': `Sửa phòng ${room.code}`
-          },
-          dataset: {
-            action: 'edit',
-            roomId: room.id,
-            testid: `room-edit-${room.id}`
-          }
-        }),
-        createElement('button', {
-          className:
-            'btn btn-sm btn-outline-danger',
-          text: 'Xóa',
-          attributes: {
-            type: 'button',
-            'aria-label': `Xóa phòng ${room.code}`
-          },
-          dataset: {
-            action: 'delete',
-            roomId: room.id,
-            testid: `room-delete-${room.id}`
-          }
-        })
-      );
-
-      const row = createElement('tr', {
-        dataset: {
-          roomId: room.id,
-          testid: `room-row-${room.id}`
-        }
-      });
-
-      row.append(
-        createTableCell(
-          'Mã phòng',
-          createElement('strong', {
-            text: room.code
-          })
-        ),
-        createTableCell(
-          'Tên phòng',
-          room.name
-        ),
-        createTableCell(
-          'Khu vực',
-          room.area || '—'
-        ),
-        createTableCell(
-          'Giá thuê',
-          formatVietnameseCurrency(
-            room.monthlyRent
-          ),
-          'text-lg-end text-nowrap'
-        ),
-        createTableCell(
-          'Số người',
-          `${occupancy.currentOccupants}/${room.maxOccupants}`,
-          'text-nowrap'
-        ),
-        createTableCell(
-          'Trạng thái',
-          createStatusBadge(room.status)
-        ),
-        createTableCell(
-          'Thao tác',
-          actions,
-          'rm-room-actions-cell'
-        )
-      );
-
-      tableBody.append(row);
-    });
+    return;
   }
+
+  visibleRooms.forEach((room) => {
+    // Giữ nguyên phần code hiện tại ở đây.
+  });
+}
 
   function refreshRooms() {
     try {

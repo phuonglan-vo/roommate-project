@@ -1,17 +1,17 @@
 import { defineConfig } from 'vite';
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(({ mode }) => ({
   /*
-   * Local:
+   * npm run dev:
    * http://127.0.0.1:5173/
    *
-   * GitHub Pages:
-   * https://phuonglan-vo.github.io/roommate-project/
+   * npm run build và npm run preview:
+   * /roommate-project/
    */
   base:
-    command === 'build'
-      ? '/roommate-project/'
-      : '/',
+    mode === 'development'
+      ? '/'
+      : '/roommate-project/',
 
   server: {
     host: '127.0.0.1',
@@ -21,7 +21,7 @@ export default defineConfig(({ command }) => ({
 
   preview: {
     host: '127.0.0.1',
-    port: 4173,
+    port: 4174,
     strictPort: true
   },
 

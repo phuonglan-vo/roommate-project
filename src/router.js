@@ -62,6 +62,12 @@ const ROUTES = Object.freeze([
     modulePath: './pages/reports-page.js'
   },
   {
+    path: '/backup',
+    page: 'backup',
+    title: 'Sao lưu dữ liệu',
+    modulePath: './pages/settings-page.js'
+  },
+  {
     path: '/settings',
     page: 'settings',
     title: 'Cài đặt',

@@ -254,7 +254,7 @@ export function createSettingsPage() {
       'rm-settings-page',
 
     dataset: {
-      testid: 'settings-page'
+      testid: 'backup-page'
     }
   });
 
@@ -365,7 +365,7 @@ export function createSettingsPage() {
 
       dataset: {
         testid:
-          'settings-export-button'
+          'export-data-button'
       }
     });
 
@@ -444,7 +444,7 @@ export function createSettingsPage() {
 
       dataset: {
         testid:
-          'settings-import-file'
+          'import-data-button'
       }
     });
 

@@ -305,92 +305,93 @@ export function createRoomForm({
   let isSubmitting = false;
 
   const fields = {
-    code: createInputField({
-      name: 'code',
-      label: 'Mã phòng',
-      required: true,
-      placeholder: 'Ví dụ: P101',
-      testId: 'room-form-code'
-    }),
+  code: createInputField({
+    name: 'code',
+    label: 'Mã phòng',
+    required: true,
+    placeholder: 'Ví dụ: P101',
+    testId: 'room-code-input'
+  }),
 
-    name: createInputField({
-      name: 'name',
-      label: 'Tên phòng',
-      required: true,
-      placeholder: 'Ví dụ: Phòng 101',
-      testId: 'room-form-name'
-    }),
+  name: createInputField({
+    name: 'name',
+    label: 'Tên phòng',
+    required: true,
+    placeholder: 'Ví dụ: Phòng 101',
+    testId: 'room-name-input'
+  }),
 
-    area: createInputField({
-      name: 'area',
-      label: 'Khu vực',
-      placeholder: 'Ví dụ: Dãy A',
-      testId: 'room-form-area'
-    }),
+  area: createInputField({
+    name: 'area',
+    label: 'Khu vực',
+    placeholder: 'Ví dụ: Dãy A',
+    testId: 'room-area-input'
+  }),
 
-    floor: createInputField({
-      name: 'floor',
-      label: 'Tầng',
-      type: 'number',
-      min: '0',
-      step: '1',
-      testId: 'room-form-floor'
-    }),
+  floor: createInputField({
+    name: 'floor',
+    label: 'Tầng',
+    type: 'number',
+    min: '0',
+    step: '1',
+    testId: 'room-floor-input'
+  }),
 
-    roomType: createSelectField({
-      name: 'roomType',
-      label: 'Loại phòng',
-      options: ROOM_TYPE_OPTIONS,
-      testId: 'room-form-type'
-    }),
+  roomType: createInputField({
+  name: 'roomType',
+  label: 'Loại phòng',
+  required: true,
+  placeholder: 'Ví dụ: Phòng đơn',
+  testId: 'room-type-input'
+  }),
 
-    areaM2: createInputField({
-      name: 'areaM2',
-      label: 'Diện tích (m²)',
-      type: 'number',
-      min: '0',
-      step: '0.1',
-      testId: 'room-form-area-m2'
-    }),
+  areaM2: createInputField({
+    name: 'areaM2',
+    label: 'Diện tích (m²)',
+    type: 'number',
+    min: '0',
+    step: '0.1',
+    testId: 'room-area-m2-input'
+  }),
 
-    monthlyRent: createInputField({
-      name: 'monthlyRent',
-      label: 'Giá thuê',
-      type: 'number',
-      required: true,
-      min: '0',
-      step: '1000',
-      testId: 'room-form-rent'
-    }),
+  monthlyRent: createInputField({
+    name: 'monthlyRent',
+    label: 'Giá thuê',
+    type: 'number',
+    required: true,
+    min: '0',
+    step: '1000',
+    testId: 'room-rent-input'
+  }),
 
-    maxOccupants: createInputField({
-      name: 'maxOccupants',
-      label: 'Số người tối đa',
-      type: 'number',
-      required: true,
-      min: '1',
-      step: '1',
-      testId: 'room-form-max-occupants'
-    }),
+  maxOccupants: createInputField({
+    name: 'maxOccupants',
+    label: 'Số người tối đa',
+    type: 'number',
+    required: true,
+    min: '1',
+    step: '1',
+    testId: 'room-capacity-input'
+  }),
 
-    status: createSelectField({
-      name: 'status',
-      label: 'Trạng thái',
-      options: Object.values(ROOM_STATUS).map(
-        (status) => ({
-          value: status,
-          label: ROOM_STATUS_LABELS[status]
-        })
-      ),
-      testId: 'room-form-status'
-    }),
+  status: createSelectField({
+    name: 'status',
+    label: 'Trạng thái',
+    options: Object.values(ROOM_STATUS).map(
+      (status) => ({
+        value: status,
+        label: ROOM_STATUS_LABELS[status]
+      })
+    ),
+    testId: 'room-status-select'
+  }),
 
-    description: createTextareaField({
-      name: 'description',
-      label: 'Mô tả',
-      testId: 'room-form-description'
-    })
-  };
+  description: createTextareaField({
+    name: 'description',
+    label: 'Mô tả',
+    testId: 'room-description-input'
+  })
+};
 
   const modalTitle = createElement('h2', {
     className: 'modal-title fs-5',
@@ -479,7 +480,7 @@ export function createRoomForm({
       type: 'submit'
     },
     dataset: {
-      testid: 'room-form-submit'
+      testid: 'room-submit-button'
     }
   });
 
@@ -850,6 +851,10 @@ export function createRoomForm({
 
       close();
     } catch (error) {
+      console.error(
+    'Không thể lưu phòng:',
+    error
+  );
       const message =
         error instanceof Error
           ? error.message
