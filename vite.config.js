@@ -1,18 +1,24 @@
 import { defineConfig } from 'vite';
 
-function getBasePath() {
-  if (process.env.BASE_PATH) {
-    return process.env.BASE_PATH;
+const GITHUB_PAGES_BASE = '/roommate-project/';
+
+function normalizeBasePath(value) {
+  const normalizedValue = String(value ?? '').trim();
+
+  if (!normalizedValue || normalizedValue === '/') {
+    return '/';
   }
 
-  const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1];
+  return `/${normalizedValue.replace(/^\/+|\/+$/g, '')}/`;
+}
 
-  if (
-    process.env.GITHUB_ACTIONS === 'true' &&
-    repositoryName &&
-    !repositoryName.endsWith('.github.io')
-  ) {
-    return `/${repositoryName}/`;
+function getBasePath() {
+  if (process.env.BASE_PATH) {
+    return normalizeBasePath(process.env.BASE_PATH);
+  }
+
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    return GITHUB_PAGES_BASE;
   }
 
   return '/';
