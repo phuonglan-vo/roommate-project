@@ -420,7 +420,7 @@ function createRoomDetailDialog() {
         'Tầng',
 
         room.floor === null ||
-        room.floor === undefined
+          room.floor === undefined
           ? '—'
           : String(room.floor)
       ],
@@ -448,8 +448,7 @@ function createRoomDetailDialog() {
       [
         'Số người',
 
-        `${
-          occupancy.currentOccupants
+        `${occupancy.currentOccupants
         }/${room.maxOccupants}`
       ],
       [
@@ -459,11 +458,11 @@ function createRoomDetailDialog() {
           occupancy.availableSpots ??
           Math.max(
             room.maxOccupants -
-              (
-                occupancy
-                  .currentOccupants ??
-                0
-              ),
+            (
+              occupancy
+                .currentOccupants ??
+              0
+            ),
             0
           )
         )
@@ -472,7 +471,7 @@ function createRoomDetailDialog() {
         'Mô tả',
 
         room.description ||
-          'Không có mô tả.'
+        'Không có mô tả.'
       ]
     ];
 
@@ -680,7 +679,7 @@ export function createRoomsPage() {
         createElement('option', {
           text:
             ROOM_STATUS_LABELS[
-              status
+            status
             ],
 
           attributes: {
@@ -1205,8 +1204,8 @@ export function createRoomsPage() {
       `${visibleRooms.length} phòng`;
 
     /*
-     * Xóa các dòng cũ trước
-     * khi render danh sách mới.
+     * Xóa các dòng cũ trước khi render
+     * danh sách mới.
      */
     tableBody.replaceChildren();
 
@@ -1218,14 +1217,8 @@ export function createRoomsPage() {
 
     /*
      * Luôn giữ bảng hiển thị.
-     *
-     * Việc này giúp người dùng vẫn thấy
-     * tiêu đề bảng khi chưa có dữ liệu
-     * và giúp Playwright tìm được
-     * data-testid="rooms-table".
      */
-    tableWrapper.hidden =
-      false;
+    tableWrapper.hidden = false;
 
     emptyState.hidden =
       hasVisibleRooms;
@@ -1238,8 +1231,7 @@ export function createRoomsPage() {
         emptyDescription.textContent =
           'Không có phòng nào phù hợp với từ khóa hoặc bộ lọc hiện tại.';
 
-        emptyAddButton.hidden =
-          true;
+        emptyAddButton.hidden = true;
       } else {
         emptyTitle.textContent =
           'Chưa có phòng';
@@ -1247,227 +1239,199 @@ export function createRoomsPage() {
         emptyDescription.textContent =
           'Hãy thêm phòng đầu tiên để bắt đầu quản lý.';
 
-        emptyAddButton.hidden =
-          false;
+        emptyAddButton.hidden = false;
       }
 
       return;
     }
 
-    visibleRooms.forEach(
-      (room) => {
-        let occupancy;
+    visibleRooms.forEach((room) => {
+      let occupancy;
 
-        try {
-          occupancy =
-            roomService
-              .getRoomOccupancy(
-                room.id
-              );
-        } catch {
-          occupancy = {
-            currentOccupants:
-              0,
+      try {
+        occupancy =
+          roomService.getRoomOccupancy(
+            room.id
+          );
+      } catch {
+        occupancy = {
+          currentOccupants: 0,
 
-            maxOccupants:
-              room.maxOccupants,
+          maxOccupants:
+            room.maxOccupants,
 
-            availableSpots:
-              room.maxOccupants
-          };
-        }
+          availableSpots:
+            room.maxOccupants
+        };
+      }
 
-        /*
-         * Các nút thao tác.
-         */
+      /*
+       * Khu vực chứa các nút thao tác.
+       */
+      const actions =
+        createElement('div', {
+          className:
+            'rm-room-actions'
+        });
 
-        const actions =
-          createElement('div', {
+      const viewButton =
+        createElement(
+          'button',
+          {
             className:
-              'rm-room-actions'
-          });
+              'btn btn-sm btn-outline-secondary',
 
-        const viewButton =
-          createElement(
-            'button',
-            {
-              className:
-                'btn btn-sm btn-outline-secondary',
+            text: 'Xem',
 
-              text:
-                'Xem',
+            attributes: {
+              type: 'button',
 
-              attributes: {
-                type:
-                  'button',
+              'aria-label':
+                `Xem phòng ${room.code}`
+            },
 
-                'aria-label':
-                  `Xem phòng ${room.code}`
-              },
-
-              dataset: {
-                action:
-                  'view',
-
-                roomId:
-                  room.id,
-
-                testid:
-                  `room-view-${room.id}`
-              }
-            }
-          );
-
-        const editButton =
-          createElement(
-            'button',
-            {
-              className:
-                'btn btn-sm btn-outline-primary',
-
-              text:
-                'Sửa',
-
-              attributes: {
-                type:
-                  'button',
-
-                'aria-label':
-                  `Sửa phòng ${room.code}`
-              },
-
-              dataset: {
-                action:
-                  'edit',
-
-                roomId:
-                  room.id,
-
-                testid:
-                  `room-edit-${room.id}`
-              }
-            }
-          );
-
-        const deleteButton =
-          createElement(
-            'button',
-            {
-              className:
-                'btn btn-sm btn-outline-danger',
-
-              text:
-                'Xóa',
-
-              attributes: {
-                type:
-                  'button',
-
-                'aria-label':
-                  `Xóa phòng ${room.code}`
-              },
-
-              dataset: {
-                action:
-                  'delete',
-
-                roomId:
-                  room.id,
-
-                testid:
-                  `room-delete-${room.id}`
-              }
-            }
-          );
-
-        actions.append(
-          viewButton,
-          editButton,
-          deleteButton
-        );
-
-        /*
-         * Tạo dòng trong bảng.
-         */
-
-        const row =
-          createElement('tr', {
             dataset: {
-              roomId:
-                room.id,
+              action: 'view',
+
+              roomId: room.id,
 
               testid:
-                `room-row-${room.id}`
+                'room-view-button'
             }
-          });
-
-        row.append(
-          createTableCell(
-            'Mã phòng',
-
-            createElement(
-              'strong',
-              {
-                text:
-                  room.code
-              }
-            )
-          ),
-
-          createTableCell(
-            'Tên phòng',
-            room.name
-          ),
-
-          createTableCell(
-            'Khu vực',
-            room.area || '—'
-          ),
-
-          createTableCell(
-            'Giá thuê',
-
-            formatVietnameseCurrency(
-              room.monthlyRent
-            ),
-
-            'text-lg-end text-nowrap'
-          ),
-
-          createTableCell(
-            'Số người',
-
-            `${
-              occupancy
-                .currentOccupants ??
-              0
-            }/${room.maxOccupants}`,
-
-            'text-nowrap'
-          ),
-
-          createTableCell(
-            'Trạng thái',
-
-            createStatusBadge(
-              room.status
-            )
-          ),
-
-          createTableCell(
-            'Thao tác',
-            actions,
-            'rm-room-actions-cell'
-          )
+          }
         );
 
-        /*
-         * Đây là dòng bị thiếu
-         * trong file cũ.
-         */
-        tableBody.append(row);
-      }
-    );
+      const editButton =
+        createElement(
+          'button',
+          {
+            className:
+              'btn btn-sm btn-outline-primary',
+
+            text: 'Sửa',
+
+            attributes: {
+              type: 'button',
+
+              'aria-label':
+                `Sửa phòng ${room.code}`
+            },
+
+            dataset: {
+              action: 'edit',
+
+              roomId: room.id,
+
+              testid:
+                'room-edit-button'
+            }
+          }
+        );
+
+      const deleteButton =
+        createElement(
+          'button',
+          {
+            className:
+              'btn btn-sm btn-outline-danger',
+
+            text: 'Xóa',
+
+            attributes: {
+              type: 'button',
+
+              'aria-label':
+                `Xóa phòng ${room.code}`
+            },
+
+            dataset: {
+              action: 'delete',
+
+              roomId: room.id,
+
+              testid:
+                'room-delete-button'
+            }
+          }
+        );
+
+      actions.append(
+        viewButton,
+        editButton,
+        deleteButton
+      );
+
+      /*
+       * Tạo dòng trong bảng.
+       */
+      const row =
+        createElement('tr', {
+          dataset: {
+            roomId: room.id,
+
+            testid:
+              `room-row-${room.id}`
+          }
+        });
+
+      row.append(
+        createTableCell(
+          'Mã phòng',
+
+          createElement(
+            'strong',
+            {
+              text: room.code
+            }
+          )
+        ),
+
+        createTableCell(
+          'Tên phòng',
+          room.name
+        ),
+
+        createTableCell(
+          'Khu vực',
+          room.area || '—'
+        ),
+
+        createTableCell(
+          'Giá thuê',
+
+          formatVietnameseCurrency(
+            room.monthlyRent
+          ),
+
+          'text-lg-end text-nowrap'
+        ),
+
+        createTableCell(
+          'Số người',
+
+          `${occupancy.currentOccupants ?? 0
+          }/${room.maxOccupants}`,
+
+          'text-nowrap'
+        ),
+
+        createTableCell(
+          'Trạng thái',
+
+          createStatusBadge(
+            room.status
+          )
+        ),
+
+        createTableCell(
+          'Thao tác',
+          actions,
+          'rm-room-actions-cell'
+        )
+      );
+
+      tableBody.append(row);
+    });
   }
 
   /*

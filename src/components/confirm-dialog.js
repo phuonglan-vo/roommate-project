@@ -112,7 +112,7 @@ export function createConfirmDialog() {
     text: 'Xác nhận',
     attributes: {
       type: 'button',
-      'data-testid': 'confirm-dialog-submit'
+      'data-testid': 'confirm-dialog-confirm'
     }
   });
 
@@ -216,7 +216,7 @@ export function showConfirmDialog({
   );
 
   const confirmButton = modalElement.querySelector(
-    '[data-testid="confirm-dialog-submit"]'
+    '[data-testid="confirm-dialog-confirm"]'
   );
 
   const cancelButton = modalElement.querySelector(

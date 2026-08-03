@@ -376,7 +376,7 @@ test.describe(
         await expect(
           mainRoomRow
         ).toContainText(
-          /3(?:[.\s]?500){2}/
+          /3[.\s]?500[.\s]?000/
         );
 
         const updatedRent =
