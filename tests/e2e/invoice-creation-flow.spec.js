@@ -63,72 +63,81 @@ const TEST_ID = Object.freeze({
   contractStatusBadge:
     'contract-status-badge',
 
-  // Cấu hình dịch vụ
+  // Dịch vụ
   servicesPage: 'services-page',
-  servicesTable: 'services-table',
-  addServiceButton: 'add-service-button',
-  serviceForm: 'service-form',
-  serviceCodeInput: 'service-code-input',
-  serviceNameInput: 'service-name-input',
-  serviceUnitInput: 'service-unit-input',
+  servicesTable: 'service-table',
+  addServiceButton:
+    'service-add-button',
+  serviceForm:
+    'service-form-modal',
+  serviceCodeInput:
+    'service-form-code',
+  serviceNameInput:
+    'service-form-name',
+  serviceUnitInput:
+    'service-form-unit',
   serviceCalculationTypeSelect:
-    'service-calculation-type-select',
-  serviceUsageTypeSelect:
-    'service-usage-type-select',
+    'service-form-calculation-type',
   serviceUnitPriceInput:
-    'service-unit-price-input',
-  serviceEffectiveFromInput:
-    'service-effective-from-input',
-  serviceActiveCheckbox:
-    'service-active-checkbox',
+    'service-form-unit-price',
   serviceSubmitButton:
-    'service-submit-button',
+    'service-form-submit',
 
   // Chỉ số điện nước
   meterReadingsPage:
     'meter-readings-page',
   meterReadingsTable:
-    'meter-readings-table',
+    'meter-table',
+  meterMonthFilter:
+    'meter-month-filter',
   addMeterReadingButton:
-    'add-meter-reading-button',
+    'meter-add-button',
   meterReadingForm:
-    'meter-reading-form',
+    'meter-form-modal',
   meterRoomSelect:
-    'meter-room-select',
+    'meter-form-room',
   meterPeriodInput:
-    'meter-period-input',
-  electricityPreviousInput:
-    'electricity-previous-input',
-  electricityCurrentInput:
-    'electricity-current-input',
-  waterPreviousInput:
-    'water-previous-input',
-  waterCurrentInput:
-    'water-current-input',
+    'meter-form-period',
   meterReadingDateInput:
-    'meter-reading-date-input',
+    'meter-form-reading-date',
+  electricityPreviousInput:
+    'meter-form-electricity-previous',
+  electricityCurrentInput:
+    'meter-form-electricity-current',
+  waterPreviousInput:
+    'meter-form-water-previous',
+  waterCurrentInput:
+    'meter-form-water-current',
+  electricityUsageValue:
+    'meter-form-electricity-usage',
+  waterUsageValue:
+    'meter-form-water-usage',
   meterReadingSubmitButton:
-    'meter-reading-submit-button',
+    'meter-form-submit',
 
   // Hóa đơn
   invoicesPage: 'invoices-page',
-  invoicesTable: 'invoices-table',
-  addInvoiceButton: 'add-invoice-button',
-  invoiceForm: 'invoice-form',
+  invoicesTable: 'invoice-table',
+  invoiceMonthFilter:
+    'invoice-month-filter',
+  addInvoiceButton:
+    'invoice-add-button',
+  invoiceForm:
+    'invoice-form-modal',
   invoiceRoomSelect:
-    'invoice-room-select',
+    'invoice-form-room',
   invoicePeriodInput:
-    'invoice-period-input',
+    'invoice-form-period',
   invoiceSubmitButton:
-    'invoice-submit-button',
-  invoiceViewButton:
-    'invoice-view-button',
+    'invoice-form-submit',
   invoiceStatusBadge:
     'invoice-payment-status-badge',
-  invoiceDetail: 'invoice-detail',
+  invoiceDetail:
+    'invoice-detail-modal',
+  invoiceDetailContent:
+    'invoice-detail-content',
   invoiceItemsTable:
-    'invoice-items-table',
-  invoiceTotal: 'invoice-total',
+    'invoice-detail-items-table',
 
   // Dùng chung
   confirmDialog: 'confirm-dialog',
@@ -154,7 +163,8 @@ const DATA = Object.freeze({
     phone: '0901234599',
     identityNumber: '079203009999',
     email: 'invoice-e2e@example.com',
-    address: 'Quận Ninh Kiều, Cần Thơ'
+    address:
+      'Quận Ninh Kiều, Cần Thơ'
   },
 
   contract: {
@@ -181,9 +191,7 @@ const DATA = Object.freeze({
       name: 'Tiền điện',
       unit: 'kWh',
       calculationType: 'usage',
-      usageType: 'electricity',
-      unitPrice: '3500',
-      effectiveFrom: '2026-08-01'
+      unitPrice: '3500'
     },
 
     water: {
@@ -191,9 +199,7 @@ const DATA = Object.freeze({
       name: 'Tiền nước',
       unit: 'm3',
       calculationType: 'usage',
-      usageType: 'water',
-      unitPrice: '15000',
-      effectiveFrom: '2026-08-01'
+      unitPrice: '15000'
     },
 
     internet: {
@@ -201,8 +207,7 @@ const DATA = Object.freeze({
       name: 'Internet',
       unit: 'phòng',
       calculationType: 'fixed',
-      unitPrice: '120000',
-      effectiveFrom: '2026-08-01'
+      unitPrice: '120000'
     }
   }
 });
@@ -247,7 +252,10 @@ async function openRoute(
 
   await expect(page).toHaveURL(
     new RegExp(
-      `${route.replaceAll('/', '\\/')}$`
+      `${route.replaceAll(
+        '/',
+        '\\/'
+      )}$`
     )
   );
 
@@ -279,19 +287,6 @@ async function selectOptionByText(
   return value;
 }
 
-async function fillOptionalInput(
-  locator,
-  value
-) {
-  if (
-    (await locator.count()) > 0 &&
-    (await locator.isVisible()) &&
-    (await locator.isEditable())
-  ) {
-    await locator.fill(value);
-  }
-}
-
 async function selectOptionalValue(
   locator,
   value
@@ -305,21 +300,34 @@ async function selectOptionalValue(
   }
 }
 
-async function confirmIfVisible(page) {
-  const dialog = page.getByTestId(
-    TEST_ID.confirmDialog
-  );
+async function confirmAction(page) {
+  const dialog =
+    page.getByTestId(
+      TEST_ID.confirmDialog
+    );
 
-  if (
-    (await dialog.count()) > 0 &&
-    (await dialog.isVisible())
-  ) {
-    await page
-      .getByTestId(
-        TEST_ID.confirmButton
-      )
-      .click();
-  }
+  await expect(dialog).toBeVisible();
+
+  const confirmButton =
+    page.getByTestId(
+      TEST_ID.confirmButton
+    );
+
+  await expect(
+    confirmButton
+  ).toBeVisible();
+
+  await expect(
+    confirmButton
+  ).toBeEnabled();
+
+  await confirmButton.click();
+
+  await expect(dialog).toBeHidden();
+
+  await expect(
+    page.locator('.modal-backdrop')
+  ).toHaveCount(0);
 }
 
 async function createRoom(page) {
@@ -335,8 +343,13 @@ async function createRoom(page) {
     )
     .click();
 
+  const roomForm =
+    page.getByTestId(
+      TEST_ID.roomForm
+    );
+
   await expect(
-    page.getByTestId(TEST_ID.roomForm)
+    roomForm
   ).toBeVisible();
 
   await page
@@ -394,13 +407,19 @@ async function createRoom(page) {
     )
     .click();
 
+  await expect(
+    roomForm
+  ).toBeHidden();
+
   const roomRow = getTableRow(
     page,
     TEST_ID.roomsTable,
     DATA.room.code
   );
 
-  await expect(roomRow).toBeVisible();
+  await expect(
+    roomRow
+  ).toBeVisible();
 
   return roomRow;
 }
@@ -418,10 +437,13 @@ async function createTenant(page) {
     )
     .click();
 
-  await expect(
+  const tenantForm =
     page.getByTestId(
       TEST_ID.tenantForm
-    )
+    );
+
+  await expect(
+    tenantForm
   ).toBeVisible();
 
   await page
@@ -440,7 +462,9 @@ async function createTenant(page) {
     .getByTestId(
       TEST_ID.tenantIdentityInput
     )
-    .fill(DATA.tenant.identityNumber);
+    .fill(
+      DATA.tenant.identityNumber
+    );
 
   await page
     .getByTestId(
@@ -460,13 +484,19 @@ async function createTenant(page) {
     )
     .click();
 
+  await expect(
+    tenantForm
+  ).toBeHidden();
+
   const tenantRow = getTableRow(
     page,
     TEST_ID.tenantsTable,
     DATA.tenant.identityNumber
   );
 
-  await expect(tenantRow).toBeVisible();
+  await expect(
+    tenantRow
+  ).toBeVisible();
 
   return tenantRow;
 }
@@ -486,10 +516,13 @@ async function createAndActivateContract(
     )
     .click();
 
-  await expect(
+  const contractForm =
     page.getByTestId(
       TEST_ID.contractForm
-    )
+    );
+
+  await expect(
+    contractForm
   ).toBeVisible();
 
   await page
@@ -530,7 +563,9 @@ async function createAndActivateContract(
       TEST_ID.contractRentInput
     );
 
-  if (await rentInput.isEditable()) {
+  if (
+    await rentInput.isEditable()
+  ) {
     await rentInput.fill(
       DATA.contract.rentAmount
     );
@@ -540,7 +575,9 @@ async function createAndActivateContract(
     .getByTestId(
       TEST_ID.contractDepositInput
     )
-    .fill(DATA.contract.depositAmount);
+    .fill(
+      DATA.contract.depositAmount
+    );
 
   await page
     .getByTestId(
@@ -548,21 +585,56 @@ async function createAndActivateContract(
     )
     .click();
 
-  const contractRow = getTableRow(
+  await expect(
+    contractForm
+  ).toBeHidden();
+
+  let contractRow = getTableRow(
     page,
     TEST_ID.contractsTable,
     DATA.contract.code
   );
 
-  await expect(contractRow).toBeVisible();
+  await expect(
+    contractRow
+  ).toBeVisible();
 
-  await contractRow
-    .getByTestId(
-      TEST_ID.contractActivateButton
+  await expect(
+    contractRow.getByTestId(
+      TEST_ID.contractStatusBadge
     )
-    .click();
+  ).toContainText(/Nháp/i);
 
-  await confirmIfVisible(page);
+  const activateButton =
+    contractRow.getByTestId(
+      TEST_ID.contractActivateButton
+    );
+
+  await expect(
+    activateButton
+  ).toBeVisible();
+
+  await expect(
+    activateButton
+  ).toBeEnabled();
+
+  await activateButton.click();
+
+  await confirmAction(page);
+
+  /*
+   * Bảng đã render lại sau khi
+   * kích hoạt nên lấy lại locator.
+   */
+  contractRow = getTableRow(
+    page,
+    TEST_ID.contractsTable,
+    DATA.contract.code
+  );
+
+  await expect(
+    contractRow
+  ).toBeVisible();
 
   await expect(
     contractRow.getByTestId(
@@ -585,16 +657,28 @@ async function createService(
     TEST_ID.servicesPage
   );
 
-  await page
-    .getByTestId(
+  const addButton =
+    page.getByTestId(
       TEST_ID.addServiceButton
-    )
-    .click();
+    );
 
   await expect(
+    addButton
+  ).toBeVisible();
+
+  await expect(
+    addButton
+  ).toBeEnabled();
+
+  await addButton.click();
+
+  const serviceForm =
     page.getByTestId(
       TEST_ID.serviceForm
-    )
+    );
+
+  await expect(
+    serviceForm
   ).toBeVisible();
 
   await page
@@ -624,47 +708,34 @@ async function createService(
       service.calculationType
     );
 
-  if (service.usageType) {
-    await selectOptionalValue(
-      page.getByTestId(
-        TEST_ID.serviceUsageTypeSelect
-      ),
-      service.usageType
-    );
-  }
-
   await page
     .getByTestId(
       TEST_ID.serviceUnitPriceInput
     )
     .fill(service.unitPrice);
 
-  await fillOptionalInput(
+  const submitButton =
     page.getByTestId(
-      TEST_ID
-        .serviceEffectiveFromInput
-    ),
-    service.effectiveFrom
-  );
-
-  const activeCheckbox =
-    page.getByTestId(
-      TEST_ID.serviceActiveCheckbox
+      TEST_ID.serviceSubmitButton
     );
 
-  if (
-    (await activeCheckbox.count()) > 0 &&
-    (await activeCheckbox.isVisible()) &&
-    !(await activeCheckbox.isChecked())
-  ) {
-    await activeCheckbox.check();
-  }
+  await expect(
+    submitButton
+  ).toBeVisible();
 
-  await page
-    .getByTestId(
-      TEST_ID.serviceSubmitButton
-    )
-    .click();
+  await expect(
+    submitButton
+  ).toBeEnabled();
+
+  await submitButton.click();
+
+  await expect(
+    serviceForm
+  ).toBeHidden();
+
+  await expect(
+    page.locator('.modal-backdrop')
+  ).toHaveCount(0);
 
   const serviceRow = getTableRow(
     page,
@@ -672,7 +743,13 @@ async function createService(
     service.code
   );
 
-  await expect(serviceRow).toBeVisible();
+  await expect(
+    serviceRow
+  ).toBeVisible();
+
+  await expect(
+    serviceRow
+  ).toContainText(service.name);
 }
 
 async function createFixedServices(
@@ -694,23 +771,62 @@ async function createFixedServices(
   );
 }
 
-async function createMeterReading(page) {
+async function createMeterReading(
+  page
+) {
   await openRoute(
     page,
     '#/meters',
     TEST_ID.meterReadingsPage
   );
 
-  await page
-    .getByTestId(
-      TEST_ID.addMeterReadingButton
-    )
-    .click();
+  /*
+   * Chọn tháng trên bộ lọc trang.
+   * Trường tháng trong modal readOnly.
+   */
+  const monthFilter =
+    page.getByTestId(
+      TEST_ID.meterMonthFilter
+    );
 
   await expect(
+    monthFilter
+  ).toBeVisible();
+
+  await monthFilter.fill(
+    DATA.period
+  );
+
+  await monthFilter.dispatchEvent(
+    'change'
+  );
+
+  await expect(
+    monthFilter
+  ).toHaveValue(DATA.period);
+
+  const addButton =
+    page.getByTestId(
+      TEST_ID.addMeterReadingButton
+    );
+
+  await expect(
+    addButton
+  ).toBeVisible();
+
+  await expect(
+    addButton
+  ).toBeEnabled();
+
+  await addButton.click();
+
+  const meterForm =
     page.getByTestId(
       TEST_ID.meterReadingForm
-    )
+    );
+
+  await expect(
+    meterForm
   ).toBeVisible();
 
   await selectOptionByText(
@@ -720,19 +836,29 @@ async function createMeterReading(page) {
     DATA.room.code
   );
 
-  await page
-    .getByTestId(
+  /*
+   * Không fill trường tháng trong
+   * modal vì trường này readOnly.
+   */
+  await expect(
+    page.getByTestId(
       TEST_ID.meterPeriodInput
     )
-    .fill(DATA.period);
+  ).toHaveValue(DATA.period);
 
-  await page
-    .getByTestId(
-      TEST_ID.electricityPreviousInput
-    )
-    .fill(
-      DATA.meter.electricityPrevious
+  const electricityPreviousInput =
+    page.getByTestId(
+      TEST_ID
+        .electricityPreviousInput
     );
+
+  await expect(
+    electricityPreviousInput
+  ).toBeEditable();
+
+  await electricityPreviousInput.fill(
+    DATA.meter.electricityPrevious
+  );
 
   await page
     .getByTestId(
@@ -742,11 +868,18 @@ async function createMeterReading(page) {
       DATA.meter.electricityCurrent
     );
 
-  await page
-    .getByTestId(
+  const waterPreviousInput =
+    page.getByTestId(
       TEST_ID.waterPreviousInput
-    )
-    .fill(DATA.meter.waterPrevious);
+    );
+
+  await expect(
+    waterPreviousInput
+  ).toBeEditable();
+
+  await waterPreviousInput.fill(
+    DATA.meter.waterPrevious
+  );
 
   await page
     .getByTestId(
@@ -754,18 +887,57 @@ async function createMeterReading(page) {
     )
     .fill(DATA.meter.waterCurrent);
 
-  await fillOptionalInput(
-    page.getByTestId(
-      TEST_ID.meterReadingDateInput
-    ),
-    DATA.meter.readingDate
-  );
-
   await page
     .getByTestId(
-      TEST_ID.meterReadingSubmitButton
+      TEST_ID.meterReadingDateInput
     )
-    .click();
+    .fill(DATA.meter.readingDate);
+
+  /*
+   * Kiểm tra lượng tiêu thụ
+   * ngay trên modal.
+   */
+  await expect(
+    page.getByTestId(
+      TEST_ID.electricityUsageValue
+    )
+  ).toHaveText(
+    String(
+      EXPECTED.electricityUsage
+    )
+  );
+
+  await expect(
+    page.getByTestId(
+      TEST_ID.waterUsageValue
+    )
+  ).toHaveText(
+    String(EXPECTED.waterUsage)
+  );
+
+  const submitButton =
+    page.getByTestId(
+      TEST_ID
+        .meterReadingSubmitButton
+    );
+
+  await expect(
+    submitButton
+  ).toBeVisible();
+
+  await expect(
+    submitButton
+  ).toBeEnabled();
+
+  await submitButton.click();
+
+  await expect(
+    meterForm
+  ).toBeHidden();
+
+  await expect(
+    page.locator('.modal-backdrop')
+  ).toHaveCount(0);
 
   const readingRow = getTableRow(
     page,
@@ -773,13 +945,21 @@ async function createMeterReading(page) {
     DATA.room.code
   );
 
-  await expect(readingRow).toBeVisible();
+  await expect(
+    readingRow
+  ).toBeVisible();
 
-  await expect(readingRow).toContainText(
-    String(EXPECTED.electricityUsage)
+  await expect(
+    readingRow
+  ).toContainText(
+    String(
+      EXPECTED.electricityUsage
+    )
   );
 
-  await expect(readingRow).toContainText(
+  await expect(
+    readingRow
+  ).toContainText(
     String(EXPECTED.waterUsage)
   );
 
@@ -793,16 +973,49 @@ async function createInvoice(page) {
     TEST_ID.invoicesPage
   );
 
-  await page
-    .getByTestId(
-      TEST_ID.addInvoiceButton
-    )
-    .click();
+  const monthFilter =
+    page.getByTestId(
+      TEST_ID.invoiceMonthFilter
+    );
 
   await expect(
+    monthFilter
+  ).toBeVisible();
+
+  await monthFilter.fill(
+    DATA.period
+  );
+
+  await monthFilter.dispatchEvent(
+    'change'
+  );
+
+  await expect(
+    monthFilter
+  ).toHaveValue(DATA.period);
+
+  const addButton =
+    page.getByTestId(
+      TEST_ID.addInvoiceButton
+    );
+
+  await expect(
+    addButton
+  ).toBeVisible();
+
+  await expect(
+    addButton
+  ).toBeEnabled();
+
+  await addButton.click();
+
+  const invoiceForm =
     page.getByTestId(
       TEST_ID.invoiceForm
-    )
+    );
+
+  await expect(
+    invoiceForm
   ).toBeVisible();
 
   await selectOptionByText(
@@ -812,17 +1025,41 @@ async function createInvoice(page) {
     DATA.room.code
   );
 
-  await page
-    .getByTestId(
+  const periodInput =
+    page.getByTestId(
       TEST_ID.invoicePeriodInput
-    )
-    .fill(DATA.period);
+    );
 
-  await page
-    .getByTestId(
+  await periodInput.fill(
+    DATA.period
+  );
+
+  await expect(
+    periodInput
+  ).toHaveValue(DATA.period);
+
+  const submitButton =
+    page.getByTestId(
       TEST_ID.invoiceSubmitButton
-    )
-    .click();
+    );
+
+  await expect(
+    submitButton
+  ).toBeVisible();
+
+  await expect(
+    submitButton
+  ).toBeEnabled();
+
+  await submitButton.click();
+
+  await expect(
+    invoiceForm
+  ).toBeHidden();
+
+  await expect(
+    page.locator('.modal-backdrop')
+  ).toHaveCount(0);
 
   const invoiceRow = getTableRow(
     page,
@@ -830,12 +1067,16 @@ async function createInvoice(page) {
     DATA.room.code
   );
 
-  await expect(invoiceRow).toBeVisible();
+  await expect(
+    invoiceRow
+  ).toBeVisible();
 
   return invoiceRow;
 }
 
-async function findStoredInvoice(page) {
+async function findStoredInvoice(
+  page
+) {
   return page.evaluate(
     ({ roomCode, period }) => {
       for (
@@ -861,21 +1102,28 @@ async function findStoredInvoice(page) {
 
           const invoice = value.find(
             (item) =>
-              item?.period === period &&
+              item?.period ===
+                period &&
               (
                 item?.roomSnapshot
-                  ?.code === roomCode ||
+                  ?.code ===
+                    roomCode ||
                 item?.roomCode ===
                   roomCode
               ) &&
-              Array.isArray(item?.items)
+              Array.isArray(
+                item?.items
+              )
           );
 
           if (invoice) {
             return invoice;
           }
         } catch {
-          // Bỏ qua khóa không chứa JSON.
+          /*
+           * Bỏ qua khóa LocalStorage
+           * không chứa JSON hợp lệ.
+           */
         }
       }
 
@@ -917,44 +1165,69 @@ test.describe(
     test(
       'tạo hóa đơn đúng tổng tiền và trạng thái chưa thanh toán',
       async ({ page }) => {
-        // 1. Tạo phòng.
+        /*
+         * 1. Tạo phòng.
+         */
         await createRoom(page);
 
-        // 2. Tạo người thuê.
+        /*
+         * 2. Tạo người thuê.
+         */
         await createTenant(page);
 
-        // 3. Tạo và kích hoạt hợp đồng.
+        /*
+         * 3. Tạo và kích hoạt
+         * hợp đồng.
+         */
         await createAndActivateContract(
           page
         );
 
         /*
-         * Chuẩn bị đơn giá cố định để kết quả
-         * không phụ thuộc dữ liệu seed.
+         * 4. Tạo các dịch vụ với
+         * đơn giá cố định cho test.
          */
         await createFixedServices(page);
 
-        // 4. Ghi chỉ số điện nước.
+        /*
+         * 5. Ghi chỉ số điện nước.
+         */
         await createMeterReading(page);
 
-        // 5. Tạo hóa đơn.
+        /*
+         * 6. Tạo hóa đơn.
+         */
         const invoiceRow =
           await createInvoice(page);
 
         /*
-         * 6. Kiểm tra tổng tiền và từng
-         * khoản chính trên giao diện.
+         * 7. Mở chi tiết hóa đơn.
          */
-        await invoiceRow
-          .getByTestId(
-            TEST_ID.invoiceViewButton
-          )
-          .click();
+        const viewButton =
+          invoiceRow.getByRole(
+            'button',
+            {
+              name: /Xem hóa đơn/i
+            }
+          );
 
         await expect(
+          viewButton
+        ).toBeVisible();
+
+        await expect(
+          viewButton
+        ).toBeEnabled();
+
+        await viewButton.click();
+
+        const invoiceDetail =
           page.getByTestId(
             TEST_ID.invoiceDetail
-          )
+          );
+
+        await expect(
+          invoiceDetail
         ).toBeVisible();
 
         const itemsTable =
@@ -962,17 +1235,25 @@ test.describe(
             TEST_ID.invoiceItemsTable
           );
 
+        await expect(
+          itemsTable
+        ).toBeVisible();
+
+        /*
+         * 8. Tìm từng dòng khoản thu.
+         */
         const rentRow = itemsTable
           .getByRole('row')
           .filter({
             hasText: 'Tiền phòng'
           });
 
-        const electricityRow = itemsTable
-          .getByRole('row')
-          .filter({
-            hasText: 'Tiền điện'
-          });
+        const electricityRow =
+          itemsTable
+            .getByRole('row')
+            .filter({
+              hasText: 'Tiền điện'
+            });
 
         const waterRow = itemsTable
           .getByRole('row')
@@ -986,49 +1267,93 @@ test.describe(
             hasText: 'Internet'
           });
 
-        await expect(rentRow).toContainText(
+        /*
+         * 9. Kiểm tra tiền phòng.
+         */
+        await expect(
+          rentRow
+        ).toContainText(
           /3(?:[.\s]?000){2}/
         );
 
+        /*
+         * Điện:
+         * 165 - 120 = 45 kWh
+         * 45 × 3.500 = 157.500
+         */
         await expect(
           electricityRow
         ).toContainText(
           /157[.\s]?500/
         );
 
-        await expect(waterRow).toContainText(
+        /*
+         * Nước:
+         * 42 - 30 = 12 m3
+         * 12 × 15.000 = 180.000
+         */
+        await expect(
+          waterRow
+        ).toContainText(
           /180[.\s]?000/
         );
 
+        /*
+         * Internet cố định:
+         * 120.000 đồng.
+         */
         await expect(
           internetRow
         ).toContainText(
           /120[.\s]?000/
         );
 
-        await expect(
+        /*
+         * Tổng:
+         * 3.000.000
+         * + 157.500
+         * + 180.000
+         * + 120.000
+         * = 3.457.500
+         */
+        const invoiceDetailContent =
           page.getByTestId(
-            TEST_ID.invoiceTotal
-          )
+            TEST_ID
+              .invoiceDetailContent
+          );
+
+        const totalRow =
+          invoiceDetailContent.locator(
+            '.rm-invoice-detail-total-row'
+          );
+
+        await expect(
+          totalRow
+        ).toContainText(/Tổng tiền/i);
+
+        await expect(
+          totalRow
         ).toContainText(
           /3[.\s]?457[.\s]?500/
         );
 
         /*
-         * Kiểm tra chính xác dữ liệu số đã
-         * được lưu, không phụ thuộc cách
-         * định dạng tiền trên giao diện.
+         * 10. Đọc dữ liệu hóa đơn
+         * từ LocalStorage.
          */
         const storedInvoice =
           await findStoredInvoice(page);
 
-        expect(storedInvoice).not.toBeNull();
+        expect(
+          storedInvoice
+        ).not.toBeNull();
 
-        const rentItem = getInvoiceItem(
-          storedInvoice,
-          'rent',
-          'Tiền phòng'
-        );
+        const rentItem =
+          getInvoiceItem(
+            storedInvoice,
+            'rent',
+            'Tiền phòng'
+          );
 
         const electricityItem =
           getInvoiceItem(
@@ -1037,11 +1362,12 @@ test.describe(
             'Tiền điện'
           );
 
-        const waterItem = getInvoiceItem(
-          storedInvoice,
-          'water',
-          'Tiền nước'
-        );
+        const waterItem =
+          getInvoiceItem(
+            storedInvoice,
+            'water',
+            'Tiền nước'
+          );
 
         const internetItem =
           getInvoiceItem(
@@ -1050,26 +1376,33 @@ test.describe(
             'Internet'
           );
 
-        expect(rentItem).toMatchObject({
+        expect(
+          rentItem
+        ).toMatchObject({
           quantity: 1,
           unitPrice:
             EXPECTED.rentAmount,
-          amount: EXPECTED.rentAmount
+          amount:
+            EXPECTED.rentAmount
         });
 
         expect(
           electricityItem
         ).toMatchObject({
           quantity:
-            EXPECTED.electricityUsage,
+            EXPECTED
+              .electricityUsage,
 
           unitPrice: 3_500,
 
           amount:
-            EXPECTED.electricityAmount
+            EXPECTED
+              .electricityAmount
         });
 
-        expect(waterItem).toMatchObject({
+        expect(
+          waterItem
+        ).toMatchObject({
           quantity:
             EXPECTED.waterUsage,
 
@@ -1083,23 +1416,28 @@ test.describe(
           internetItem
         ).toMatchObject({
           quantity: 1,
+
           unitPrice:
             EXPECTED.internetAmount,
+
           amount:
             EXPECTED.internetAmount
         });
 
-        expect(storedInvoice).toMatchObject({
+        expect(
+          storedInvoice
+        ).toMatchObject({
           subtotal: EXPECTED.total,
           discount: 0,
           total: EXPECTED.total,
           paidAmount: 0,
-          remainingDebt: EXPECTED.total
+          remainingDebt:
+            EXPECTED.total
         });
 
         /*
-         * 7. Hóa đơn mới ở trạng thái
-         * chưa thanh toán.
+         * 11. Hóa đơn mới phải ở
+         * trạng thái chưa thanh toán.
          */
         await expect(
           invoiceRow.getByTestId(
@@ -1112,12 +1450,6 @@ test.describe(
         expect(
           storedInvoice.paymentStatus
         ).toBe('unpaid');
-
-        /*
-         * Screenshot khi lỗi và trace khi
-         * retry được Playwright tự lưu theo
-         * playwright.config.js.
-         */
       }
     );
   }
