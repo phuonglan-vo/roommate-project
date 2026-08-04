@@ -475,7 +475,7 @@ export function createSettingsPage() {
 
       dataset: {
         testid:
-          'settings-validation-status'
+          'import-error'
       }
     });
 
@@ -822,7 +822,7 @@ export function createSettingsPage() {
 
       dataset: {
         testid:
-          'settings-delete-all'
+          'clear-data-button'
       }
     });
 
@@ -1401,44 +1401,23 @@ export function createSettingsPage() {
   }
 
   async function deleteAllData() {
-    const firstConfirmation =
+    const confirmed =
       await showConfirmDialog({
         title:
           'Xóa toàn bộ dữ liệu?',
 
         message:
-          'Tất cả phòng, người thuê, hợp đồng, hóa đơn, thanh toán và cấu hình sẽ bị xóa.',
+          'Tất cả phòng, người thuê, hợp đồng, hóa đơn, thanh toán và cấu hình sẽ bị xóa. Thao tác này không thể hoàn tác nếu chưa có file backup.',
 
         confirmText:
-          'Tiếp tục xóa',
+          'Xóa toàn bộ dữ liệu',
 
         cancelText: 'Hủy',
 
         variant: 'danger'
       });
 
-    if (!firstConfirmation) {
-      return;
-    }
-
-    const finalConfirmation =
-      await showConfirmDialog({
-        title:
-          'Xác nhận lần cuối',
-
-        message:
-          'Thao tác này không thể hoàn tác nếu chưa có file backup. Bạn chắc chắn muốn xóa toàn bộ dữ liệu?',
-
-        confirmText:
-          'Xóa vĩnh viễn',
-
-        cancelText:
-          'Không xóa',
-
-        variant: 'danger'
-      });
-
-    if (!finalConfirmation) {
+    if (!confirmed) {
       return;
     }
 

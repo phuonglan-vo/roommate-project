@@ -20,10 +20,18 @@ const TEST_ID = Object.freeze({
   importError: 'import-error',
   toastArea: 'toast-area',
 
+  validateImportButton:
+    'settings-validate-import',
+
+  importActionButton:
+    'settings-import-button',
+
   // Dialog xác nhận
   confirmDialog: 'confirm-dialog',
-  confirmButton: 'confirm-dialog-confirm',
-  cancelButton: 'confirm-dialog-cancel',
+  confirmButton:
+    'confirm-dialog-confirm',
+  cancelButton:
+    'confirm-dialog-cancel',
 
   // Trang phòng
   roomsPage: 'rooms-page',
@@ -44,9 +52,12 @@ const EXPORTED_ROOM_A = Object.freeze({
   monthlyRent: 2_500_000,
   maxOccupants: 2,
   status: 'vacant',
-  description: 'Dữ liệu kiểm tra export',
-  createdAt: '2026-08-03T01:00:00.000Z',
-  updatedAt: '2026-08-03T01:00:00.000Z'
+  description:
+    'Dữ liệu kiểm tra export',
+  createdAt:
+    '2026-08-03T01:00:00.000Z',
+  updatedAt:
+    '2026-08-03T01:00:00.000Z'
 });
 
 const EXPORTED_ROOM_B = Object.freeze({
@@ -58,9 +69,12 @@ const EXPORTED_ROOM_B = Object.freeze({
   monthlyRent: 3_500_000,
   maxOccupants: 4,
   status: 'vacant',
-  description: 'Dữ liệu kiểm tra khôi phục',
-  createdAt: '2026-08-03T01:05:00.000Z',
-  updatedAt: '2026-08-03T01:05:00.000Z'
+  description:
+    'Dữ liệu kiểm tra khôi phục',
+  createdAt:
+    '2026-08-03T01:05:00.000Z',
+  updatedAt:
+    '2026-08-03T01:05:00.000Z'
 });
 
 const EXPORTED_TENANT = Object.freeze({
@@ -72,8 +86,10 @@ const EXPORTED_TENANT = Object.freeze({
   address: 'Cần Thơ',
   vehiclePlates: [],
   status: 'active',
-  createdAt: '2026-08-03T01:10:00.000Z',
-  updatedAt: '2026-08-03T01:10:00.000Z'
+  createdAt:
+    '2026-08-03T01:10:00.000Z',
+  updatedAt:
+    '2026-08-03T01:10:00.000Z'
 });
 
 const CURRENT_ROOM = Object.freeze({
@@ -87,8 +103,10 @@ const CURRENT_ROOM = Object.freeze({
   status: 'vacant',
   description:
     'Dữ liệu không được mất khi hủy import',
-  createdAt: '2026-08-03T02:00:00.000Z',
-  updatedAt: '2026-08-03T02:00:00.000Z'
+  createdAt:
+    '2026-08-03T02:00:00.000Z',
+  updatedAt:
+    '2026-08-03T02:00:00.000Z'
 });
 
 const IMPORTED_ROOM = Object.freeze({
@@ -102,8 +120,10 @@ const IMPORTED_ROOM = Object.freeze({
   status: 'vacant',
   description:
     'Dữ liệu chỉ xuất hiện nếu đồng ý ghi đè',
-  createdAt: '2026-08-03T03:00:00.000Z',
-  updatedAt: '2026-08-03T03:00:00.000Z'
+  createdAt:
+    '2026-08-03T03:00:00.000Z',
+  updatedAt:
+    '2026-08-03T03:00:00.000Z'
 });
 
 function escapeRegExp(value) {
@@ -140,25 +160,38 @@ function createBackupPayload({
     ...createEmptyStorageData(),
 
     [STORAGE_KEYS.ROOMS]: rooms,
-    [STORAGE_KEYS.TENANTS]: tenants,
+
+    [STORAGE_KEYS.TENANTS]:
+      tenants,
+
     [STORAGE_KEYS.CONTRACTS]:
       contracts,
+
     [STORAGE_KEYS.METER_READINGS]:
       meterReadings,
+
     [STORAGE_KEYS.SERVICE_CONFIGS]:
       serviceConfigs,
+
     [STORAGE_KEYS.INVOICES]:
       invoices,
+
     [STORAGE_KEYS.PAYMENTS]:
       payments,
+
     [STORAGE_KEYS.APP_SETTINGS]:
       appSettings
   };
 }
 
-function getRoomRow(page, roomCode) {
+function getRoomRow(
+  page,
+  roomCode
+) {
   return page
-    .getByTestId(TEST_ID.roomsTable)
+    .getByTestId(
+      TEST_ID.roomsTable
+    )
     .getByRole('row')
     .filter({
       hasText: roomCode
@@ -200,12 +233,14 @@ async function writeStorageData(
 
       Object.entries(
         storageData
-      ).forEach(([key, value]) => {
-        localStorage.setItem(
-          key,
-          JSON.stringify(value)
-        );
-      });
+      ).forEach(
+        ([key, value]) => {
+          localStorage.setItem(
+            key,
+            JSON.stringify(value)
+          );
+        }
+      );
     },
     {
       storageData: data
@@ -213,29 +248,34 @@ async function writeStorageData(
   );
 }
 
-async function readStorageSnapshot(page) {
+async function readStorageSnapshot(
+  page
+) {
   return page.evaluate(
     (storageKeys) => {
       return Object.fromEntries(
-        Object.values(storageKeys).map(
-          (key) => {
-            const rawValue =
-              localStorage.getItem(key);
+        Object.values(
+          storageKeys
+        ).map((key) => {
+          const rawValue =
+            localStorage.getItem(key);
 
-            if (rawValue === null) {
-              return [key, null];
-            }
-
-            try {
-              return [
-                key,
-                JSON.parse(rawValue)
-              ];
-            } catch {
-              return [key, rawValue];
-            }
+          if (rawValue === null) {
+            return [key, null];
           }
-        )
+
+          try {
+            return [
+              key,
+              JSON.parse(rawValue)
+            ];
+          } catch {
+            return [
+              key,
+              rawValue
+            ];
+          }
+        })
       );
     },
     STORAGE_KEYS
@@ -250,7 +290,7 @@ async function readCollection(
     (key) => {
       const value = JSON.parse(
         localStorage.getItem(key) ??
-          '[]'
+        '[]'
       );
 
       return Array.isArray(value)
@@ -285,7 +325,8 @@ async function downloadToBuffer(
   download
 ) {
   const stream =
-    await download.createReadStream();
+    await download
+      .createReadStream();
 
   expect(stream).not.toBeNull();
 
@@ -302,9 +343,9 @@ async function downloadToBuffer(
   const buffer =
     Buffer.concat(chunks);
 
-  expect(buffer.length).toBeGreaterThan(
-    0
-  );
+  expect(
+    buffer.length
+  ).toBeGreaterThan(0);
 
   expect(
     await download.failure()
@@ -349,7 +390,7 @@ async function selectImportFile(
     name,
     buffer,
     mimeType =
-      'application/json'
+    'application/json'
   }
 ) {
   const fileChooserPromise =
@@ -371,6 +412,35 @@ async function selectImportFile(
     mimeType,
     buffer
   });
+}
+
+async function validateImportFile(
+  page
+) {
+  const validateButton =
+    page.getByTestId(
+      TEST_ID
+        .validateImportButton
+    );
+
+  await expect(
+    validateButton
+  ).toBeEnabled();
+
+  await validateButton.click();
+}
+
+async function startImport(page) {
+  const importActionButton =
+    page.getByTestId(
+      TEST_ID.importActionButton
+    );
+
+  await expect(
+    importActionButton
+  ).toBeEnabled();
+
+  await importActionButton.click();
 }
 
 async function confirmImportIfShown(
@@ -477,13 +547,15 @@ function objectContainsCode(
       return true;
     }
 
-    return Object.values(value).some(
-      (item) =>
-        objectContainsCode(
-          item,
-          expectedCode
-        )
-    );
+    return Object
+      .values(value)
+      .some(
+        (item) =>
+          objectContainsCode(
+            item,
+            expectedCode
+          )
+      );
   }
 
   return false;
@@ -507,7 +579,8 @@ test.describe(
       'export JSON, xóa dữ liệu và import để khôi phục',
       async ({ page }) => {
         /*
-         * 1. Tạo dữ liệu riêng cho test.
+         * 1. Tạo dữ liệu riêng
+         * cho test.
          */
         await seedExportData(page);
 
@@ -528,7 +601,9 @@ test.describe(
 
         const exportedJson =
           JSON.parse(
-            buffer.toString('utf8')
+            buffer.toString(
+              'utf8'
+            )
           );
 
         expect(
@@ -546,7 +621,8 @@ test.describe(
         ).toBe(true);
 
         /*
-         * 4. Xóa toàn bộ dữ liệu bằng UI.
+         * 4. Xóa toàn bộ dữ liệu
+         * bằng UI.
          */
         await clearAllData(page);
 
@@ -571,12 +647,8 @@ test.describe(
         ).toHaveCount(0);
 
         /*
-         * 5. Import lại chính file vừa
-         * được download.
-         *
-         * File được truyền bằng buffer,
-         * không phụ thuộc file có sẵn trên
-         * máy người dùng.
+         * 5. Import lại chính file
+         * vừa được download.
          */
         await openRoute(
           page,
@@ -591,6 +663,16 @@ test.describe(
             buffer
           }
         );
+
+        /*
+         * Kiểm tra file trước khi
+         * bắt đầu import.
+         */
+        await validateImportFile(
+          page
+        );
+
+        await startImport(page);
 
         await confirmImportIfShown(
           page
@@ -608,7 +690,10 @@ test.describe(
               );
 
             return rooms
-              .map((room) => room.code)
+              .map(
+                (room) =>
+                  room.code
+              )
               .sort();
           })
           .toEqual([
@@ -637,8 +722,8 @@ test.describe(
         ).toBeVisible();
 
         /*
-         * Reload để kiểm tra dữ liệu import
-         * thực sự đã lưu trong LocalStorage.
+         * Reload để kiểm tra dữ liệu
+         * đã lưu trong LocalStorage.
          */
         await page.reload();
 
@@ -713,10 +798,8 @@ test.describe(
         );
 
         /*
-         * 7. Import file JSON bị lỗi cú pháp.
-         *
-         * File được tạo trực tiếp trong bộ
-         * nhớ bằng API file chooser.
+         * 7. Import file JSON bị
+         * lỗi cú pháp.
          */
         await selectImportFile(
           page,
@@ -730,6 +813,13 @@ test.describe(
                 'utf8'
               )
           }
+        );
+
+        /*
+         * Bắt đầu kiểm tra file.
+         */
+        await validateImportFile(
+          page
         );
 
         /*
@@ -754,8 +844,8 @@ test.describe(
         ).toBeVisible();
 
         /*
-         * File sai không được thay đổi dữ
-         * liệu đang có.
+         * File sai không được thay đổi
+         * dữ liệu đang có.
          */
         const snapshotAfter =
           await readStorageSnapshot(
@@ -793,6 +883,48 @@ test.describe(
     test(
       'hủy thao tác ghi đè giữ nguyên dữ liệu hiện tại',
       async ({ page }) => {
+        /*
+         * 1. Tạo dữ liệu sẽ nằm trong
+         * file import.
+         */
+        await writeStorageData(
+          page,
+          createBackupPayload({
+            rooms: [
+              IMPORTED_ROOM
+            ],
+
+            appSettings: {
+              imported: true
+            }
+          })
+        );
+
+        /*
+         * 2. Mở trang backup và export
+         * bằng chính chức năng của hệ thống.
+         *
+         * Nhờ đó file luôn đúng cấu trúc
+         * mà backupService yêu cầu.
+         */
+        await openRoute(
+          page,
+          ROUTE.backup,
+          TEST_ID.backupPage
+        );
+
+        const {
+          buffer,
+          fileName
+        } = await exportJson(page);
+
+        /*
+         * 3. Thay dữ liệu hiện tại bằng
+         * CURRENT_ROOM.
+         *
+         * Đây là dữ liệu phải được giữ lại
+         * sau khi người dùng hủy import.
+         */
         await writeStorageData(
           page,
           createBackupPayload({
@@ -806,47 +938,60 @@ test.describe(
           })
         );
 
+        /*
+         * Reload để giao diện đọc lại
+         * dữ liệu mới trong LocalStorage.
+         */
+        await page.reload();
+
+        await expect(
+          page.getByTestId(
+            TEST_ID.backupPage
+          )
+        ).toBeVisible();
+
         const snapshotBefore =
           await readStorageSnapshot(
             page
           );
 
-        const overwritePayload =
-          createBackupPayload({
-            rooms: [
-              IMPORTED_ROOM
-            ],
-
-            appSettings: {
-              imported: true
-            }
-          });
-
-        await openRoute(
-          page,
-          ROUTE.backup,
-          TEST_ID.backupPage
-        );
-
+        /*
+         * 4. Chọn file backup vừa export.
+         */
         await selectImportFile(
           page,
           {
-            name:
-              'roommate-overwrite.json',
-
-            buffer:
-              Buffer.from(
-                JSON.stringify(
-                  overwritePayload
-                ),
-                'utf8'
-              )
+            name: fileName,
+            buffer
           }
         );
 
         /*
-         * 9. Hủy thao tác ghi đè.
+         * 5. Kiểm tra file.
          */
+        await validateImportFile(
+          page
+        );
+
+        /*
+         * Sau khi file hợp lệ,
+         * nút Import phải được bật.
+         */
+        const importActionButton =
+          page.getByTestId(
+            TEST_ID.importActionButton
+          );
+
+        await expect(
+          importActionButton
+        ).toBeEnabled();
+
+        /*
+         * 6. Bắt đầu import để mở
+         * dialog xác nhận ghi đè.
+         */
+        await importActionButton.click();
+
         const dialog =
           page.getByTestId(
             TEST_ID.confirmDialog
@@ -856,6 +1001,9 @@ test.describe(
           dialog
         ).toBeVisible();
 
+        /*
+         * 7. Hủy thao tác ghi đè.
+         */
         await page
           .getByTestId(
             TEST_ID.cancelButton
@@ -867,7 +1015,7 @@ test.describe(
         ).toBeHidden();
 
         /*
-         * 10. Dữ liệu hiện tại không bị mất.
+         * 8. LocalStorage phải giữ nguyên.
          */
         const snapshotAfter =
           await readStorageSnapshot(
@@ -878,6 +1026,9 @@ test.describe(
           snapshotAfter
         ).toEqual(snapshotBefore);
 
+        /*
+         * CURRENT_ROOM vẫn còn.
+         */
         const rooms =
           await readCollection(
             page,
@@ -891,6 +1042,10 @@ test.describe(
           })
         ]);
 
+        /*
+         * IMPORTED_ROOM chưa được ghi vào
+         * LocalStorage vì người dùng đã hủy.
+         */
         expect(
           rooms.some(
             (room) =>
@@ -899,6 +1054,9 @@ test.describe(
           )
         ).toBe(false);
 
+        /*
+         * 9. Kiểm tra trên giao diện.
+         */
         await openRoute(
           page,
           ROUTE.rooms,
@@ -919,7 +1077,17 @@ test.describe(
           )
         ).toHaveCount(0);
 
+        /*
+         * 10. Reload để chắc chắn
+         * dữ liệu thực sự được giữ lại.
+         */
         await page.reload();
+
+        await expect(
+          page.getByTestId(
+            TEST_ID.roomsPage
+          )
+        ).toBeVisible();
 
         await expect(
           getRoomRow(
